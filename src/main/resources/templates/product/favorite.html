@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{index :: dynamic(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <section class="mb-4 ">
+        <div class="card mb-2">
+            <div class="card-header py-3">
+                <h5 class="mb-0 text-center"><strong>Sản phẩm yêu thích</strong></h5>
+            </div>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="row justify-content-end">
+            <div class="btn-group shadow-0 mb-2 col-md-3">
+                <button type="button" class="btn btn-light dropdown-toggle" data-mdb-toggle="dropdown" aria-expanded="false">
+                    Sắp xếp
+                </button>
+                <ul class="dropdown-menu dropdown-menu-lg-end">
+                    <li ng-repeat="s in sortUI">
+                        <a class="dropdown-item" href="" ng-click="sortProducts(s.code)">{{s.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Sort Dropdown -->
+
+        <!-- loading spinner START-->
+        <div class="row justify-content-center my-4" ng-show="favoriteListLoading">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <!-- loading spinner END-->
+
+        <!-- product list -->
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-4" style="min-height: 50vh;">
+            <div class="col-md-3 col-lg-3 col-sm-12"
+                ng-repeat="p in favoritePager.favoriteProductList | filter : {color: {name: selectedColor}} | rangeFilter:'price':0:priceRange | filter: searchTextProdList">
+
+                <!-- product card START-->
+                <div class="card" style="position: relative;">
+                    <a href="{{'/product/detail/' + p.id}}">
+                        <div class="bg-image hover-zoom">
+                            <img ng-src="{{ (p.image.startsWith('upload')?'/upload/images/':'/assets/images/') + (p.image || 'default-product.jpg') }}"
+                                class="card-img-top" alt="Product image" />
+                        </div>
+                    </a>
+                    <div ng-show="p.sale_off != 0" class="label-top bg-danger shadow-sm">
+                        <a class="text-white" href="#">Sale: {{p.sale_off | number: 0}}%</a>
+                    </div>
+                    <div class="" style="top: 5px; left: 5px; position: absolute; cursor: pointer;">
+                        <!-- hàm changeClassName ở static/assets/js/script.js -->
+                        <a class="text-secondary" onmouseover="changeClassName(this, 'text-secondary','text-danger')"
+                            onmouseleave="changeClassName(this, 'text-secondary','text-danger')" ng-click="removeFromFavorite(p.favoriteId)"><i
+                                class="fa-regular fa-circle-xmark fa-2x"></i></a>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{p.name}}</h5>
+                        <p>{{p.color.name}}</p>
+                        <div class="card-text d-flex justify-content-between">
+                            <span ng-show="p.sale_off == 0">{{ p.price | currency:'đ':0}}</span>
+                            <span ng-if="p.sale_off != 0">
+                                <del class="small">{{p.price | currency:'đ':0}}</del>
+                                {{ p.sale_off != 0 ? (p.price - (p.price * p.sale_off / 100) ) : p.price |
+                                currency:'đ':0}}</span>
+                            <span style="color: grey;">Đã bán {{p.sold}}</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" ng-click="cart.add(p.id)">
+                                Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- product card END-->
+            </div>
+        </div>
+        <!-- end product list -->
+
+        <!-- paging - START -->
+        <div ng-if="favoritePager.favoriteProductList.length !== 0" class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <div class="justify-content-center btn-group btn-group-xs">
+                    <button class="btn btn-secondary btn-sm" ng-click="favoritePager.first()"> &lArr;</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="favoritePager.prev()">&larr; </button>
+                    <button class="btn btn-secondary btn-sm">{{favoritePager.page+1}} - {{favoritePager.count}}</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="favoritePager.next()"> &rarr; </button>
+                    <button class="btn btn-secondary btn-sm" ng-click="favoritePager.last()">&rArr; </button>
+                </div>
+            </nav>
+        </div>
+        <!-- paging - END -->
+
+    </section>
+</body>
+
+</html>

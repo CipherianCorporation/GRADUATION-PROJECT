@@ -161,21 +161,34 @@ CREATE TABLE [dbo].[order_details] (
 );
 
 CREATE TABLE [dbo].[visitors] (
-    [id]          INT            IDENTITY (100001, 1) NOT NULL,
-    [user_info]   NVARCHAR (255)  NULL,
-    [ip]          NVARCHAR (255)  NULL,
-    [method]      NVARCHAR (255)  NULL,
-    [url]         NVARCHAR (255)  NULL,
-    [page]        NVARCHAR (255)  NULL,
-    [query_string] NVARCHAR (255) NULL,
-    [referer_page] NVARCHAR (255) NULL,
-    [user_agent]   NVARCHAR (255) NULL,
-    [logged_time]  datetime           NULL,
-    [unique_visit] BIT            NULL,
+    [id]            INT            IDENTITY (100001, 1) NOT NULL,
+    [user_info]     NVARCHAR (255)  NULL,
+    [ip]            NVARCHAR (255)  NULL,
+    [city]          NVARCHAR (255)  NULL,
+    [full_location] NVARCHAR (255)  NULL,
+    [latitude]      float  NULL,
+    [longtitude]    float  NULL,
+    [method]        NVARCHAR (255)  NULL,
+    [url]           NVARCHAR (255)  NULL,
+    [page]          NVARCHAR (255)  NULL,
+    [query_string]  NVARCHAR (255) NULL,
+    [referer_page]  NVARCHAR (255) NULL,
+    [user_agent]    NVARCHAR (255) NULL,
+    [logged_time]   datetime           NULL,
+    [unique_visit]  BIT            NULL,
     CONSTRAINT [PK_visitors] PRIMARY KEY CLUSTERED ([id] ASC)
 );
 
-drop table visitors
+CREATE TABLE [dbo].[favorite_products] (
+    [id]         INT  IDENTITY (100001, 1) NOT NULL,
+    [user_id]    INT  NOT NULL,
+    [product_id] INT  NOT NULL,
+    [updated_at] DATE NULL,
+    [created_at] DATE DEFAULT (getdate()) NOT NULL,
+    CONSTRAINT [PK_favorite_products] PRIMARY KEY CLUSTERED ([id] ASC),
+    CONSTRAINT [FK_favorite_products_products] FOREIGN KEY ([product_id]) REFERENCES [dbo].[products] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_favorite_products_users] FOREIGN KEY ([user_id]) REFERENCES [dbo].[users] ([id]) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 
 
@@ -203,27 +216,28 @@ select * from sub_categories
 select * from products p WHERE p.price BETWEEN '0' AND '100000'
 select * from users
 select * from roles
-select * from user_roles
-select * from orders
+select u.role_id, count(u.role_id) from user_roles u group by u.role_id
+select * from orders 
 select * from order_details
 select * from order_statuses
 select * from vouchers
 select * from colors
 select * from visitors
 
+select 
+count(case o.order_status when 'processing' then 1 else null end) as 'processingCount',
+count(case o.order_status when 'success' then 1 else null end) as 'successCount',
+count(case o.order_status when 'cancel' then 1 else null end) as 'cancelCount'
+from orders o
 
--- Update rows in table '[TableName]' in schema '[dbo]'
-UPDATE [dbo].[orders]
-SET
-    order_status = 'success'
-    -- Add more columns and values here
-WHERE /* add search conditions here */
-id = '100015'
-GO
+select distinct s.name , sum(p.sold) from products p
+inner join sub_categories s on p.sub_category_id = s.id
+group by s.name
 
- CONSTRAINT [FK_711] FOREIGN KEY ([order_status]) REFERENCES [dbo].[order_statuses] ([name])
+select  s.name as 'SubCates', p.sold from products p
+inner join sub_categories s on p.sub_category_id = s.id
 
- ALTER TABLE orders 
- add CONSTRAINT [FK_711] FOREIGN KEY ([order_status]) REFERENCES [dbo].[order_statuses] ([name]) 
+alter table products
+add  [stock]            BIGINT         DEFAULT ((0)) NOT NULL
 
- -- Update rows in table '[TableName]' in schema '[dbo]'
+

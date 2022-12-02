@@ -64,7 +64,7 @@ app.controller("product-ctrl", function ($scope, $http) {
     };
 
     $scope.create = function () {
-        var item = angular.copy($scope.newForm);
+        let item = angular.copy($scope.newForm);
         if (item.image == null) {
             item.image = 'default-product.jpg';
         }
@@ -88,7 +88,6 @@ app.controller("product-ctrl", function ($scope, $http) {
             id: JSON.parse(localStorage.getItem('userPrincipal')).id
         };
         item.sold = 0;
-        console.log(item);
 
         // thay khoảng trắng bằng %20 và trim() trong product name mới gửi request đc
         let prodName = item.name.replace(/\s/g, '%20').trim();
@@ -115,13 +114,12 @@ app.controller("product-ctrl", function ($scope, $http) {
     };
 
     $scope.update = function () {
-        var item = angular.copy($scope.editForm);
+        let item = angular.copy($scope.editForm);
         item.updatedAt = new Date();
         let check = confirm(`Are you sure to update this product?`);
-        console.log(item);
         if (check) {
             $http.put(`/rest/products/${item.id}`, item).then(resp => {
-                var index = $scope.items.findIndex(p => p.id == item.id);
+                let index = $scope.items.findIndex(p => p.id == item.id);
                 $scope.items[index] = item;
                 $scope.initialize();
                 alert("Cập nhập sản phẩm thành công");
@@ -192,7 +190,6 @@ app.controller("product-ctrl", function ($scope, $http) {
             this.page = this.count - 1;
         }
     };
-    console.log($scope.pager.items);
 });
 
 

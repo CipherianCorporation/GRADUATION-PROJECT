@@ -55,7 +55,7 @@
 
             <!-- relevant products START-->
             <div class="row row-cols-md-4 row-cols-sm-2 text-center d-flex justify-content-start">
-                <div class="col-md-3" th:each="p : ${item.category.products}">
+                <div class="col-md-3 pb-1" th:each="p : ${item.category.products}">
                     <div class="card">
                         <a th:href="@{|/product/detail/${p.id}|}">
                             <img th:src="${ (#strings.startsWith(p.image,'upload') ? '/upload/images/':'/assets/images/') + (!#strings.isEmpty(p.image)? p.image : 'default-product.jpg') }"

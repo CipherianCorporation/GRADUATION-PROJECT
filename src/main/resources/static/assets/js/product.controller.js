@@ -1,20 +1,5 @@
 app.controller("product-ctrl", productController);
 
-app.filter('rangeFilter', function () {
-    return function (items, attr, min, max) {
-        var range = [],
-            min = parseFloat(min),
-            max = parseFloat(max);
-        for (var i = 0, l = items.length; i < l; ++i) {
-            var item = items[i];
-            if (item[attr] <= max && item[attr] >= min) {
-                range.push(item);
-            }
-        }
-        return range;
-    };
-});
-
 function productController($scope, $http, $interval) {
     $scope.productListLoading = true;
     $scope.productList = [];
@@ -113,7 +98,7 @@ function productController($scope, $http, $interval) {
 
     $scope.sortProducts = function (sortCode) {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $http.get('/rest/products?sort=' + sortCode).then(res => {
             $scope.productList = res.data;
         }).catch(error => { console.error(error); })
@@ -124,7 +109,7 @@ function productController($scope, $http, $interval) {
 
     $scope.filterProductByCategory = function (categoryId) {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $http.get('/rest/products/category/' + categoryId).then(res => {
             $scope.productList = res.data;
         }).catch(error => { console.error(error); })
@@ -135,7 +120,7 @@ function productController($scope, $http, $interval) {
 
     $scope.filterProductBySubCategory = function (subCategoryId) {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $http.get('/rest/products/sub-category/' + subCategoryId).then(res => {
             $scope.productList = res.data;
         }).catch(error => { console.error(error); })
@@ -146,7 +131,7 @@ function productController($scope, $http, $interval) {
 
     $scope.filterProductBySaleOff = function () {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $http.get('/rest/products/sale-off/').then(res => {
             $scope.productList = res.data;
         }).catch(error => { console.error(error); })
@@ -157,12 +142,12 @@ function productController($scope, $http, $interval) {
 
     $scope.filterProductByPriceRange = function () {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $http.get('/rest/products/sale-off/').then(res => {
             $scope.productList = res.data;
         }).catch(error => { console.error(error); })
             .finally(function () {
-                $scope.productListLoading= false;
+                $scope.productListLoading = false;
             });
     };
 
@@ -175,13 +160,13 @@ function productController($scope, $http, $interval) {
 
     $scope.removeAllFilters = function () {
         $scope.productList = [];
-        $scope.loading = true;
+        $scope.productListLoading = true;
         $scope.selectedColor = '';
         $scope.priceRange = $scope.rangeUI.max;
         $scope.getProductList();
     };
 
-    $scope.pager = {
+    $scope.productPager = {
         page: 0,
         size: 10,
         get productList() {

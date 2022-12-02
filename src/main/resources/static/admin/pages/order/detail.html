@@ -33,6 +33,7 @@
                     </tr>
                 </tbody>
             </table>
+            <a ng-hide="detail_items[0].order.orderStatus.name == 'cancel'" href="/admin/orders/invoice/{{detail_items[0].order.id}}" class="btn btn-secondary">Hóa đơn</a>
         </div>
     </div>
 </div>

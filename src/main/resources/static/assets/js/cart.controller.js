@@ -1,6 +1,6 @@
-app.controller("shopping-cart-ctrl", shoppingCartCtrl);
+app.controller("shopping-cart-ctrl", favoriteCtrl);
 
-function shoppingCartCtrl($scope, $http) {
+function favoriteCtrl($scope, $http) {
 
     $scope.userPrincipal = {};
     $scope.cartOrderType = '';
@@ -120,6 +120,16 @@ function shoppingCartCtrl($scope, $http) {
         return Object.keys(obj).length === 0;
     };
 
+    $scope.semdEmailReceipt = function (orderObj) {
+        $http.post('/rest/orders/send-email-receipt', orderObj).then(res => {
+            if (res.status === 200) {
+                alert('Đã gửi email hóa đơn!');
+            }
+        }).catch(err => {
+            console.error("Lỗi gửi hóa đơn email!", err);
+        });
+    };
+
     $scope.order = {
         // createdAt: new Date(),
         total: 0.0,
@@ -149,17 +159,17 @@ function shoppingCartCtrl($scope, $http) {
             order.address = $scope.userPrincipal.address;
             order.user.username = $scope.userPrincipal.username;
             if (!$scope.isObjEmpty($scope.voucherResponse)) {
+                // thêm property voucher vào object order
                 order.voucher = { id: null };
                 order.voucher.id = $scope.voucherResponse.id;
             }
             order.total = $scope.order.total_cost();
-            console.log(order);
+            // console.log(order);
             if ($scope.cart.count === 0) {
                 alert("Error creating order or your cart is empty! Please try again!");
             } else {
                 if (order.payment_method == "paypal") {
-                    $http.post('/pay', order).then(res => {
-                        console.log(res.data.returned_url);
+                    $http.post('/paypal', order).then(res => {
                         $scope.cart.clear();
                         location.href = res.data.returned_url;
                     }).catch(err => {
@@ -168,7 +178,8 @@ function shoppingCartCtrl($scope, $http) {
                     });
                 } else if (order.payment_method == "cod") {
                     $http.post('/rest/orders', order).then(res => {
-                        alert("Order successfully created");
+                        alert("Đặt hàng thành công, chúng tôi sẽ gửi mail hóa đơn vào địa chỉ email của bạn!");
+                        $scope.semdEmailReceipt(res.data);
                         $scope.cart.clear();
                         location.href = "/order/list";
                     }).catch(err => {

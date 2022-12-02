@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{index :: dynamic(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <section ng-controller="contact-ctrl">
+        <div class="row justify-content-center align-content-start align-items-center">
+            <div class="card-header py-3">
+                <h1 class="mb-0 text-center">Liên hệ</h1>
+            </div>
+            <div class="col-12 row pt-3">
+                <div class="col-6 col-md-8 col-lg-8 col-xl-6">
+                    <div class="card rounded-4 shadow">
+                        <div class="card-body p-md-5 p-sm-2 ">
+                            <form name="formContact" class="row g-3 needs-validation" novalidate >
+                                <div>
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <input ng-model="form.username" name="username" type="text"  id="floatingUsername"
+                                                class="form-control form-control-lg rounded-3" required />
+                                            <label class="form-label" for="floatingUsername">Họ và tên </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.username.$invalid">Vui lòng nhập họ và tên.</div>
+                                    </div>
+
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <input ng-model="form.address" name="address" type="text" id="floatingAddress"
+                                                class="form-control form-control-lg rounded-3" required />
+                                            <label class="form-label" for="floatingAddress">Địa chỉ </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.address.$invalid">Vui lòng nhập địa chỉ.</div>
+                                    </div>
+
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <input ng-model="form.email" type="email" name="email"  id="floatingEmail" class="form-control form-control-lg rounded-3"
+                                                   required />
+                                            <label class="form-label" for="floatingEmail">E-mail </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.email.$invalid">Vui lòng nhập email hợp lệ.</div>
+                                    </div>
+
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <input ng-model="form.phone" name="phone" type="number" id="floatingPhone"
+                                                class="form-control form-control-lg rounded-3" minlength="10" maxlength="10" required />
+                                            <label class="form-label" for="floatingPhone">SĐT </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.phone.$invalid">Vui lòng nhập số điện thoại.</div>
+                                    </div>
+
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <input ng-model="form.title" name="title" type="text"  id="floatingTitle"
+                                                class="form-control form-control-lg rounded-3" required />
+                                            <label class="form-label" for="floatingTitle">Tiêu đề </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.title.$invalid">Vui lòng nhập tiêu đề.</div>
+                                    </div>
+
+                                    <div class="mb-4 py-1">
+                                        <div class="form-outline">
+                                            <textarea ng-model="form.content" name="content" id="floatingContent"
+                                                class="form-control form-control-lg rounded-3" required ></textarea>
+                                            <label class="form-label" for="floatingContent">Nội dung </label>
+                                        </div>
+                                        <div class="text-danger" ng-show="formContact.content.$invalid">Vui lòng nhập nội dung.</div>
+                                    </div>
+                                    
+                                    <button ng-disabled="formContact.$invalid" type="submit" class="btn btn-lg rounded-3 btn-success" ng-click="contact()">Gửi liên hệ</button>
+                                    <button class="btn btn-lg rounded-3 btn-success" ng-click="reset()">Làm mới</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-8 col-lg-8 col-xl-6">
+                    <p><h3>SHOESHY</h3></p>
+                    <p>Địa chỉ: 32 Đ. Cô Bắc, Phường 1, Phú Nhuận, Thành phố Hồ Chí Minh, Việt Nam</p>
+                    <p>SĐT: 0867 116 790</p>
+                    <p>Mở cửa: 10:00 AM</p>
+                    <p>Đóng cửa: 09:30 PM </p>
+                    <p>Email: shoeshy.shop@gmail.com</p>
+                    <p>Website: shoeshy.com</p>
+                </div>
+            </div>
+            <div class="col-12 pt-5 pr-3">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2024837590257!2d106.68014961458931!3d10.795798292308385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528d1545d9b63%3A0x2e90ac9e7ef82408!2zMTksIDMyIMSQLiBDw7QgQuG6r2MsIFBoxrDhu51uZyAxLCBQaMO6IE5odeG6rW4sIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1669798268784!5m2!1svi!2s" width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

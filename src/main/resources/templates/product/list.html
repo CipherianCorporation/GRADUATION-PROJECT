@@ -36,19 +36,27 @@
             <!-- product list -->
             <div class="row row-cols-1 row-cols-md-4 g-4 mb-4" style="min-height: 50vh;">
                 <div class="col-md-3 col-lg-3 col-sm-12"
-                    ng-repeat="p in pager.productList | filter : {color: {name: selectedColor}} | rangeFilter:'price':0:priceRange | filter: searchTextProdList">
+                    ng-repeat="p in productPager.productList | filter : {color: {name: selectedColor}} | rangeFilter:'price':0:priceRange | filter: searchTextProdList">
 
                     <!-- product card START-->
-                    <div class="card">
+                    <div class="card" style="position: relative;">
                         <a href="{{'/product/detail/' + p.id}}">
-                            <img ng-src="{{ (p.image.startsWith('upload')?'/upload/images/':'/assets/images/') + (p.image || 'default-product.jpg') }}"
-                                class="card-img-top" alt="Product image" />
+                            <div class="bg-image hover-zoom">
+                                <img ng-src="{{ (p.image.startsWith('upload')?'/upload/images/':'/assets/images/') + (p.image || 'default-product.jpg') }}"
+                                    class="card-img-top" alt="Product image" />
+                            </div>
                         </a>
 
                         <div ng-show="p.sale_off != 0" class="label-top bg-danger shadow-sm">
                             <a class="text-white" href="#">Sale: {{p.sale_off | number: 0}}%</a>
                         </div>
 
+                        <div class="hover-overlay" style="top: 5px; left: 5px; position: absolute; cursor: pointer;">
+                            <a class="text-secondary" ng-click="addToFavorite(p.id)" onmouseover="changeClassName(this, 'text-secondary','text-danger')"
+                                onmouseleave="changeClassName(this, 'text-secondary','text-danger')">
+                                <i class="fa-regular fa-heart fa-2x"></i>
+                            </a>
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{p.name}}</h5>
                             <p>{{p.color.name}}</p>
@@ -73,14 +81,14 @@
             <!-- end product list -->
 
             <!-- paging - START -->
-            <div ng-if="pager.productList.length !== 0" class="d-flex justify-content-center">
+            <div ng-if="productPager.productList.length !== 0" class="d-flex justify-content-center">
                 <nav aria-label="Page navigation example">
                     <div class="justify-content-center btn-group btn-group-xs">
-                        <button class="btn btn-secondary btn-sm" ng-click="pager.first()"> &lArr;</button>
-                        <button class="btn btn-secondary btn-sm" ng-click="pager.prev()">&larr; </button>
-                        <button class="btn btn-secondary btn-sm">{{pager.page+1}} - {{pager.count}}</button>
-                        <button class="btn btn-secondary btn-sm" ng-click="pager.next()"> &rarr; </button>
-                        <button class="btn btn-secondary btn-sm" ng-click="pager.last()">&rArr; </button>
+                        <button class="btn btn-secondary btn-sm" ng-click="productPager.first()"> &lArr;</button>
+                        <button class="btn btn-secondary btn-sm" ng-click="productPager.prev()">&larr; </button>
+                        <button class="btn btn-secondary btn-sm">{{productPager.page+1}} - {{productPager.count}}</button>
+                        <button class="btn btn-secondary btn-sm" ng-click="productPager.next()"> &rarr; </button>
+                        <button class="btn btn-secondary btn-sm" ng-click="productPager.last()">&rArr; </button>
                     </div>
                 </nav>
             </div>

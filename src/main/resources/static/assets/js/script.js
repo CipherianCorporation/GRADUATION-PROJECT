@@ -1,4 +1,14 @@
 
+// change classname on mouse hover
+function changeClassName(element, oldClass, newClass) {
+    console.log(element);
+    if (element.className == oldClass) {
+        element.className = newClass;
+    } else {
+        element.className = oldClass;
+    }
+}
+
 
 // delete message after 5 seconds
 function functionToDisappearInnerHTML(elementPos) {

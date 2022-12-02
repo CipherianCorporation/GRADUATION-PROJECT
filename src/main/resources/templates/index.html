@@ -25,19 +25,21 @@
 
 <body ng-app="shoeshy-app" ng-controller="shopping-cart-ctrl">
     <div class="container" ng-controller="product-ctrl">
-        <!-- header -->
-        <header th:replace="components/_header.html :: header"></header>
+        <div ng-controller="favorite-ctrl">
+            <!-- header -->
+            <header th:replace="components/_header.html :: header"></header>
 
-        <main class="row" style="min-height: 100vh;" ng-controller="order-ctrl">
-            <!-- aside -->
-            <aside class="col-md-2">
-                <div th:replace="components/_aside.html"></div>
-            </aside>
-            <!-- main -->
-            <article class="col-md-10">
-                <div th:replace="${main}"></div>
-            </article>
-        </main>
+            <main class="row" style="min-height: 100vh;" ng-controller="order-ctrl">
+                <!-- aside -->
+                <aside class="col-md-2">
+                    <div th:replace="components/_aside.html"></div>
+                </aside>
+                <!-- main -->
+                <article class="col-md-10">
+                    <div th:replace="${main}"></div>
+                </article>
+            </main>
+        </div>
     </div>
     <!-- footer -->
     <footer th:replace="components/_footer.html :: footer"></footer>
@@ -62,13 +64,13 @@
     <script th:src="@{/assets/js/app.module.js}"></script>
     <!-- angularjs controller -->
     <script th:src="@{/assets/js/product.controller.js}"></script>
+    <script th:src="@{/assets/js/favorite.controller.js}"></script>
     <script th:src="@{/assets/js/cart.controller.js}"></script>
     <script th:src="@{/assets/js/user.controller.js}"></script>
     <script th:src="@{/assets/js/order.controller.js}"></script>
+    <script th:src="@{/assets/js/contact.controller.js}"></script>
     <!-- custom js -->
     <script th:src="@{/assets/js/script.js}"></script>
-
-
 </body>
 
 </html>

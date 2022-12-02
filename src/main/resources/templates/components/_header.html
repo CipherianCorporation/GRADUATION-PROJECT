@@ -93,6 +93,12 @@
                                 <li>
                                     <a class="dropdown-item" th:href="@{/order/list}" ng-click="swich_order_list()">Đơn hàng</a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/product/favorite}">Yêu thích</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/account/contact}">Liên hệ</a>
+                                </li>
                                 <!-- appear only for admin or staff -->
                                 <li th:if="${#request.isUserInRole('ROLE_ADMIN') or #request.isUserInRole('ROLE_STAFF')}">
                                     <a class="dropdown-item" th:href="@{/admin/home/index}">Quản trị</a>
@@ -105,7 +111,8 @@
                             <th:block th:unless="${#request.remoteUser}">
                                 <li><a class="dropdown-item" th:href="@{/security/login/form}">Đăng nhập</a></li>
                                 <li><a class="dropdown-item" th:href="@{/account/signup}">Đăng ký</a></li>
-                                <li><a class="dropdown-item" th:href="@{/account/forgotpassword/form}">Quên mật khẩu</a>
+                                <li><a class="dropdown-item" th:href="@{/account/forgotpassword/form}">Quên mật khẩu</a></li>
+                                <li><a class="dropdown-item" th:href="@{/account/contact}">Liên hệ</a></li>
                             </th:block>
                         </ul>
                     </div>

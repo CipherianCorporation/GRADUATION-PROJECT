@@ -1,4 +1,4 @@
-angular.module("shoeshy-app").controller("user-ctrl", userController);
+app.controller("user-ctrl", userController);
 
 function userController($scope, $http, $interval) {
     $scope.form = {};

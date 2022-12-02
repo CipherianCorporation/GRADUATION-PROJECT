@@ -10,4 +10,6 @@ public interface ExportService {
     void exportPDF(Object entity, String fileAndTitleName, HttpServletResponse response) throws IOException;
 
     void exportCSV(Object entity, String fileAndTitleName, HttpServletResponse response) throws IOException;
+
+    void exportInvoice(Long orderId, HttpServletResponse response) throws  IOException;
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.graduationproject.entity.Order;
@@ -118,6 +119,16 @@ public class ExportRestController {
     public ResponseEntity<String> exportUsersCsv(HttpServletResponse response) {
         try {
             exportService.exportCSV(new User(), "users", response);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/admin/orders/invoice/{orderId}")
+    public ResponseEntity<String> exportInvoice(HttpServletResponse response, @PathVariable("orderId") Long orderId) {
+        try {
+            exportService.exportInvoice(orderId , response);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

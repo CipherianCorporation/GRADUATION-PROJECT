@@ -1,6 +1,9 @@
 package com.edu.graduationproject.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.edu.graduationproject.entity.Order;
 import com.edu.graduationproject.entity.OrderDetails;
@@ -10,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public interface OrderService {
     Order create(JsonNode orderData);
 
-    Order findById(Long id);
+    Optional<Order> findById(Long id);
 
     List<Order> findByUsername(String username);
 
@@ -22,7 +25,7 @@ public interface OrderService {
 
     List<Order> findAllSortStatus();
 
-    int updateStatus(String orderStatus, Long orderId);
+    int updateStatus(String orderStatus, Long orderId, List<OrderDetails> productId);
 
     List<Order> searchByOrderId(Long orderId);
 
@@ -31,4 +34,6 @@ public interface OrderService {
     Double getTotalRevenue();
 
     List<IOrderTypeCount> getTypeCount();
+
+    void sendEmailReceipt(JsonNode orderData, HttpServletRequest request);
 }

@@ -1,4 +1,4 @@
-app.controller("authorize-ctrl", function($scope, $http) {
+app.controller("authorize-ctrl", function($scope, $http, $location) {
 	$scope.roles = [];
 	$scope.admins = [];
 	$scope.authorities = [];
@@ -45,7 +45,7 @@ app.controller("authorize-ctrl", function($scope, $http) {
 	};
 
 	$scope.authority_changed = function(_user, _role) {
-		var authority = $scope.authority_of(_user, _role);
+		let authority = $scope.authority_of(_user, _role);
 		if (authority) { //Tuoc quyen adm
 			$scope.revoke_authority(authority);
 		} else { //Cap quyen adm
@@ -56,11 +56,11 @@ app.controller("authorize-ctrl", function($scope, $http) {
 	// Xoa authority(adm)
 	$scope.revoke_authority = function(authority) {
 		$http.delete(`/rest/authorities/${authority.id}`).then(resp => {
-			var index = $scope.authorities.findIndex(a => a.id == authority.id);
+			let index = $scope.authorities.findIndex(a => a.id == authority.id);
 			$scope.authorities.splice(index, 1);
-			alert("Tước quyền sử dụng thành công");
+			alert("Tước quyền thành công");
 		}).catch(error => {
-			alert("Tước quyền sử dụng thất bại");
+			alert("Tước quyền thất bại");
 			console.log("Error", error);
 		});
 	};
@@ -68,7 +68,7 @@ app.controller("authorize-ctrl", function($scope, $http) {
 	$scope.grant_authority = function(authority) {
 		$http.post(`/rest/authorities`, authority).then(resp => {
 			$scope.authorities.push(resp.data);
-			alert("Cấp quyền adm thành công");
+			alert("Cấp quyền thành công");
 		}).catch(error => {
 			alert("Chưa Đủ Điều Kiện Để Cấp Quyền Vui Lòng Quay Lại Lần Sau !");
 			console.log("Error", error);

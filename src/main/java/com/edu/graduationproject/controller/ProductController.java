@@ -33,4 +33,9 @@ public class ProductController {
         model.addAttribute("item", item);
         return "product/detail";
     }
+
+    @RequestMapping("/product/favorite")
+    public String favorite() {
+        return "product/favorite";
+    }
 }

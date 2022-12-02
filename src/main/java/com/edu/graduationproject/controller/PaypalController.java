@@ -47,7 +47,7 @@ public class PaypalController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/pay")
+    @PostMapping("/paypal")
     @ResponseBody
     public ResponseEntity<Object> pay(
             @RequestBody JsonNode orderData,

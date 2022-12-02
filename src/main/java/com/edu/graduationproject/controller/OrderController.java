@@ -47,7 +47,7 @@ public class OrderController {
     public String detail(@PathVariable("id") Long id, Model model) throws JsonProcessingException {
         // System.out.println(new
         // ObjectMapper().writeValueAsString(orderService.findById(id).getOrder_details()));
-        model.addAttribute("order", orderService.findById(id));
+        model.addAttribute("order", orderService.findById(id).get());
         return "order/detail";
     }
 
