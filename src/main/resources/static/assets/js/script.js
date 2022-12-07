@@ -1,7 +1,6 @@
 
 // change classname on mouse hover
 function changeClassName(element, oldClass, newClass) {
-    console.log(element);
     if (element.className == oldClass) {
         element.className = newClass;
     } else {

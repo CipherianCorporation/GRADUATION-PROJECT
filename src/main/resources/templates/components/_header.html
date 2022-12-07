@@ -86,8 +86,8 @@
                             <th:block th:if="${#request.remoteUser}">
                                 <!-- <span sec:authentication="authorities"></span> -->
                                 <!-- if user log in with OAuth2 GG and FB then hide Edit profile -->
-                                <li
-                                    sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_STAFF') and !hasAuthority('SCOPE_openid') and !hasAuthority('SCOPE_email') and !hasAuthority('SCOPE_public_profile')">
+                                <!-- and !hasAuthority('SCOPE_openid') and !hasAuthority('SCOPE_email') and !hasAuthority('SCOPE_public_profile') -->
+                                <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_STAFF')">
                                     <a class="dropdown-item" th:href="@{/account/editprofile}">Chỉnh sửa tài khoản</a>
                                 </li>
                                 <li>

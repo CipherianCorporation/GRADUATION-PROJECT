@@ -16,10 +16,10 @@
                     <div class="form-group mb-3">
                         <label for="customFile">Ảnh:</label>
                         <figure>
-                            <img ng-src="{{ (form.image_url.startsWith('upload')?'/upload/images/':'/assets/images/') + (form.image_url || 'default-user.jpg') }}"
+                            <img ng-src="{{ (form.image_url.startsWith('upload')?'/upload/images/':(form.image_url.startsWith('https://')?'':'/assets/images/')) + (form.image_url || 'default-user.jpg') }}"
                                 class="img-fluid img-thumbnail" width="120" height="120">
                         </figure>
-                        <input ng-model="form.image_url" onchange="angular.element(this).scope().imageChanged(this.files)" type="file" class="form-control"
+                        <input ng-hide="form.image_url.startsWith('https://')" ng-model="form.image_url" onchange="angular.element(this).scope().imageChanged(this.files)" type="file" class="form-control"
                             id="customFile" />
                     </div>
                     <div class="row">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-6 mb-2">
                             <label for="email">Email </label>
-                            <input ng-model="form.email" type="text" name="txtEmail" class="form-control" placeholder="name@example.com" required>
+                            <input ng-model="form.email" type="text" name="txtEmail" class="form-control" placeholder="name@example.com" ng-disabled="form.image_url.startsWith('https://')" required>
                             <label ng-show="myform.txtEmail.$invalid" class="badge badge-danger my-2 p-2">Xin hãy nhập email! </label>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                                 <i class="fas fa-save"></i> Lưu
                             </button>
                             <button ng-click="reset()" type="submit" class="btn btn-danger">
-                                Hủy
+                                Xóa hết
                             </button>
                         </div>
                     </div>

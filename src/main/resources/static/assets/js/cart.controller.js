@@ -1,6 +1,6 @@
-app.controller("shopping-cart-ctrl", favoriteCtrl);
+app.controller("shopping-cart-ctrl", shoppingCartCtrl);
 
-function favoriteCtrl($scope, $http) {
+function shoppingCartCtrl($scope, $http, $window) {
 
     $scope.userPrincipal = {};
     $scope.cartOrderType = '';
@@ -14,17 +14,30 @@ function favoriteCtrl($scope, $http) {
     $scope.get_user_pricipal = function () {
         $http.get("/rest/users/principal").then(resp => {
             $scope.userPrincipal = resp.data;
+            if ($window.location.pathname === '/order/checkout') {
+                if (resp.data.address === null || resp.data.phone === null || resp.data.fullname === null) {
+                    alert('Cần cung cấp thông tin địa chỉ, họ tên và SDT để tiến hành thanh toán!');
+                    $window.location.href = '/account/editprofile';
+                }
+            }
             // localStorage.setItem("user", JSON.stringify(resp.data.id));
         }).catch(error => {
             console.log("Error", error);
         });
     };
 
+
+
     $scope.initialize = function () {
+        if ($window.location.pathname === '/order/checkout') {
+            if ($scope.cart.items.length === 0) {
+                alert('Giỏ hàng bạn đang trống!');
+                $window.location.href = '/';
+            }
+        }
+
         $scope.get_user_pricipal();
     };
-
-    $scope.initialize();
 
     $scope.cart = {
         items: [],
@@ -168,7 +181,7 @@ function favoriteCtrl($scope, $http) {
             if ($scope.cart.count === 0) {
                 alert("Error creating order or your cart is empty! Please try again!");
             } else {
-                if (order.payment_method == "paypal") {
+                if (order.payment_method === "paypal") {
                     $http.post('/paypal', order).then(res => {
                         $scope.cart.clear();
                         location.href = res.data.returned_url;
@@ -176,7 +189,7 @@ function favoriteCtrl($scope, $http) {
                         alert("Error creating order or your cart is empty! Please try again!");
                         console.log(err);
                     });
-                } else if (order.payment_method == "cod") {
+                } else if (order.payment_method === "cod") {
                     $http.post('/rest/orders', order).then(res => {
                         alert("Đặt hàng thành công, chúng tôi sẽ gửi mail hóa đơn vào địa chỉ email của bạn!");
                         $scope.semdEmailReceipt(res.data);
@@ -190,6 +203,8 @@ function favoriteCtrl($scope, $http) {
             }
         }
     };
+
+    $scope.initialize();
 
 
 }

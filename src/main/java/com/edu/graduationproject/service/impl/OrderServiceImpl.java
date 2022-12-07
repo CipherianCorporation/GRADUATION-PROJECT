@@ -25,8 +25,8 @@ import com.edu.graduationproject.service.OrderService;
 import com.edu.graduationproject.service.PersonalAccessTokenService;
 import com.edu.graduationproject.service.ProductService;
 import com.edu.graduationproject.service.UserService;
-import com.edu.graduationproject.utils.CommonUtils;
 import com.edu.graduationproject.utils.DateUtils;
+import com.edu.graduationproject.utils.URLUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         // create accessToken
         String randomStr = RandomString.make(30);
         String abilities = "DOWNLOAD";
-        String downloadLink = CommonUtils.getSiteURL(request) + "/rest/orders/download-invoice?accessToken="
+        String downloadLink = URLUtils.getBaseURl(request) + "/rest/orders/download-invoice?accessToken="
                 + randomStr + "&orderId=" + order.getId();
         accessTokenService.create(new PersonalAccessToken(randomStr, abilities));
 
@@ -125,7 +125,6 @@ public class OrderServiceImpl implements OrderService {
                         downloadLink);
         mailInfo.setBody(content);
         mailerService.queue(mailInfo);
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.edu.graduationproject.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,15 +67,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-    	 Optional<User> findUser = userRepo.findByUsername(user.getUsername());
-         if (findUser.isPresent()) {
-             if (user.getPassword().equals(String.valueOf(findUser.get().getPassword()))) {
-                 user.setPassword((user.getPassword()));
-             } else if (!encoder.matches(user.getPassword(), findUser.get().getPassword())) {
-                 user.setPassword(encoder.encode(user.getPassword()));
-             } 
-         }
-         return userRepo.save(user);
+        Optional<User> findUser = userRepo.findByUsername(user.getUsername());
+        if (findUser.isPresent()) {
+            if (user.getEnabled() == null) {
+                user.setEnabled(true);
+            }
+            if (findUser.get().getProvider().equals(EAuthProvider.FACEBOOK)) {
+                user.setPassword(null);
+                user.setProvider(EAuthProvider.FACEBOOK);
+            } else if (findUser.get().getProvider().equals(EAuthProvider.GOOGLE)) {
+                user.setPassword(null);
+                user.setProvider(EAuthProvider.GOOGLE);
+            } else if (findUser.get().getProvider().equals(EAuthProvider.DATABASE)) {
+                user.setProvider(EAuthProvider.DATABASE);
+            } else if (findUser.get().getProvider() == null || user.getProvider() == null) {
+                user.setProvider(EAuthProvider.DATABASE);
+            }
+            if (findUser.get().getPassword() != null || findUser.get().getPassword() != "") {
+                user.setPassword((findUser.get().getPassword()));
+            }
+            user.setUpdatedAt(new Date());
+        }
+        return userRepo.save(user);
     }
 
     @Override

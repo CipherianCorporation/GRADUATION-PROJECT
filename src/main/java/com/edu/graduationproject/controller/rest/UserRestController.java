@@ -88,17 +88,6 @@ public class UserRestController {
             if (!existingUser.isPresent()) {
                 existingUser = userService.findById(Integer.valueOf((String) idOrUsername.get()));
             }
-            if (!existingUser.get().getProvider().equals(EAuthProvider.DATABASE)) {
-                return ResponseEntity.badRequest().body(user);
-            }
-            if (user.getEnabled() == null) {
-                user.setEnabled(true);
-            }
-            if (user.getProvider() != EAuthProvider.DATABASE) {
-                user.setProvider(EAuthProvider.DATABASE);
-            }
-            user.setUpdatedAt(new Date());
-            user.setPassword(existingUser.get().getPassword());
             User savedUser = userService.update(user);
             return ResponseEntity.ok(savedUser);
         } catch (NoSuchElementException e) {

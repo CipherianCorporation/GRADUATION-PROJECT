@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.edu.graduationproject.entity.Order;
 import com.edu.graduationproject.model.EPaypalPaymentIntent;
 import com.edu.graduationproject.model.EPaypalPaymentMethod;
 import com.edu.graduationproject.service.OrderService;
@@ -25,6 +26,7 @@ import com.edu.graduationproject.service.PaypalService;
 import com.edu.graduationproject.utils.CommonUtils;
 import com.edu.graduationproject.utils.URLUtils;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -40,6 +42,8 @@ public class PaypalController {
     public static final String CHECKOUT_PAGE_URL = "/order/checkout";
     public static final String HOMEPAGE_URL = "/order/checkout";
     private static JsonNode orderJsonNode;
+    private static HttpServletRequest request;
+    private static ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private PaypalService paypalService;
@@ -51,10 +55,11 @@ public class PaypalController {
     @ResponseBody
     public ResponseEntity<Object> pay(
             @RequestBody JsonNode orderData,
-            HttpServletRequest request, ModelMap model)
+            HttpServletRequest _request, ModelMap model)
             throws IOException {
         HashMap<String, String> map = new HashMap<>();
         orderJsonNode = orderData;
+        request = _request;
         Double _total = CommonUtils.convertCurrency("VND", "USD", orderData.get("total").asDouble());
         if (_total == 0.0) {
             return ResponseEntity.ok(CHECKOUT_PAGE_URL);
@@ -99,8 +104,12 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
-                orderService.create(orderJsonNode);
-                model.addAttribute("message", "You have successfully completed the payment!");
+                Order createdOrder = orderService.create(orderJsonNode);
+                JsonNode tmpOrderJsonNode = mapper.convertValue(createdOrder, JsonNode.class);
+
+                orderService.sendEmailReceipt(tmpOrderJsonNode, request);
+                model.addAttribute("message",
+                        "Bạn đã thanh toán Paypal thành công, chúng tôi đã gửi email hóa đơn vào hòm thư của bạn!");
                 model.addAttribute("isPaymentSuccess", true);
                 return new ModelAndView("redirect:/", model);
             }
