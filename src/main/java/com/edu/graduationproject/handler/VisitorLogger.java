@@ -77,9 +77,7 @@ public class VisitorLogger implements HandlerInterceptor {
                         cityResponse.getLocation() != null ? cityResponse.getLocation().getLongitude() : 0);
             }
         }
-
         visitorService.saveVisitorInfo(visitor);
-
         return true;
     }
 }

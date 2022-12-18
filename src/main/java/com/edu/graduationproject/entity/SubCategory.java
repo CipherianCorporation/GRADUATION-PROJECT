@@ -36,6 +36,8 @@ public class SubCategory implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // bắt buộc dùng @TemporalType.Date cho các class từ java.util.*
     @Temporal(TemporalType.DATE)

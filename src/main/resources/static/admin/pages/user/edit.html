@@ -19,42 +19,42 @@
     <!-- Text input -->
     <label for="editFormUsername">Tên người dùng</label>
     <div class=" mb-4">
-        <input ng-model="editForm.username" name="username" type="text" id="editFormUsername" class="form-control" disabled />
+        <input ng-model="editForm.username" name="username" type="text" id="editFormUsername" class="form-control" disabled required />
         <div class="text-danger" ng-show="myEditForm.username.$invalid">Làm ơn nhập tên người dùng hợp lệ</div>
     </div>
 
     <!-- Text input -->
     <label for="editFormPassword">Mật khẩu</label>
     <div class=" mb-4">
-        <input ng-model="editForm.password" name="password" type="password" id="editFormPassword" class="form-control" />
+        <input ng-model="editForm.password" name="password" type="password" id="editFormPassword" class="form-control" minlength="6" required />
         <div class="text-danger" ng-show="myEditForm.password.$invalid">Làm ơn nhập mật khẩu hợp lệ</div>
     </div>
 
     <!-- Text input -->
     <label for="editFormFullname">Họ và tên</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="editForm.fullname" name="fullname" type="text" id="editFormFullname" class="form-control" />
+        <input ng-model="editForm.fullname" name="fullname" type="text" id="editFormFullname" class="form-control" required />
         <div class="text-danger" ng-show="myEditForm.fullname.$invalid">Làm ơn nhập họ và tên hợp lệ</div>
     </div>
 
     <!-- Text input -->
     <label for="editFormEmail">Email</label>
     <div class=" mb-4">
-        <input ng-model="editForm.email" name="ëmail" type="email" id="editFormEmail" class="form-control" />
+        <input ng-model="editForm.email" name="ëmail" type="email" id="editFormEmail" class="form-control" required />
         <div class="text-danger" ng-show="myEditForm.email.$invalid">Làm ơn nhập email hợp lệ</div>
     </div>
 
     <!-- Number input -->
     <label for="editFormPhone">Số điện thoại</label>
     <div class=" mb-4">
-        <input ng-model="editForm.phone" name="phone" type="tel" id="editFormPhone" class="form-control" />
+        <input ng-model="editForm.phone" name="phone" type="tel" id="editFormPhone" class="form-control" required />
         <div class="text-danger" ng-show="myEditForm.phone.$invalid">Làm ơn nhập số điện thoại hợp lệ</div>
     </div>
 
     <!-- Text input -->
     <label for="editFormAddress">Địa chỉ</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="editForm.address" name="address" type="text" id="editFormAddress" class="form-control" />
+        <input ng-model="editForm.address" name="address" type="text" id="editFormAddress" class="form-control" required />
         <div class="text-danger" ng-show="myEditForm.address.$invalid">Làm ơn nhập địa chỉ hợp lệ</div>
     </div>
 
@@ -93,5 +93,5 @@
     </div>
 
     <!-- Submit button -->
-    <button ng-disabled="myEditForm.$invalid" ng-click="update()" type="button" class="btn btn-success btn-block mt-4 mb-4">Cập nhật</button>
+    <button ng-disabled="myEditForm.$invalid" ng-click="update()" type="button" class="btn btn-success btn-block mb-4">Cập nhật</button>
 </form>

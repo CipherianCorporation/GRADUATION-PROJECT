@@ -71,7 +71,7 @@ function productController($scope, $http, $interval) {
     $scope.getProductList = function () {
         $scope.productListLoading = true;
         $http.get('/rest/products').then(res => {
-            $scope.productList = res.data;
+            $scope.productList = res.data.filter((p) => p.isDeleted === false);
         }).catch(error => {
             console.error(error);
         }).finally(function () {
@@ -81,13 +81,13 @@ function productController($scope, $http, $interval) {
 
     $scope.getCategoryList = function () {
         $http.get('/rest/categories').then(res => {
-            $scope.categories = res.data;
+            $scope.categories = res.data.filter((c) => c.isDeleted === false);
         }).catch(error => { console.error(error); });
     };
 
     $scope.getSubCategoryList = function () {
         $http.get('/rest/sub-categories').then(res => {
-            $scope.sub_categories = res.data;
+            $scope.sub_categories = res.data.filter((s) => s.isDeleted === false);
         }).catch(error => { console.error(error); });
     };
 
@@ -100,7 +100,7 @@ function productController($scope, $http, $interval) {
         $scope.productList = [];
         $scope.productListLoading = true;
         $http.get('/rest/products?sort=' + sortCode).then(res => {
-            $scope.productList = res.data;
+            $scope.productList = res.data.filter((p) => p.isDeleted === false);
         }).catch(error => { console.error(error); })
             .finally(function () {
                 $scope.productListLoading = false;
@@ -111,7 +111,7 @@ function productController($scope, $http, $interval) {
         $scope.productList = [];
         $scope.productListLoading = true;
         $http.get('/rest/products/category/' + categoryId).then(res => {
-            $scope.productList = res.data;
+            $scope.productList = res.data.filter((p) => p.isDeleted === false);
         }).catch(error => { console.error(error); })
             .finally(function () {
                 $scope.productListLoading = false;
@@ -122,7 +122,7 @@ function productController($scope, $http, $interval) {
         $scope.productList = [];
         $scope.productListLoading = true;
         $http.get('/rest/products/sub-category/' + subCategoryId).then(res => {
-            $scope.productList = res.data;
+            $scope.productList = res.data.filter((p) => p.isDeleted === false);
         }).catch(error => { console.error(error); })
             .finally(function () {
                 $scope.productListLoading = false;
@@ -133,24 +133,12 @@ function productController($scope, $http, $interval) {
         $scope.productList = [];
         $scope.productListLoading = true;
         $http.get('/rest/products/sale-off/').then(res => {
-            $scope.productList = res.data;
+            $scope.productList = res.data.filter((p) => p.isDeleted === false);
         }).catch(error => { console.error(error); })
             .finally(function () {
                 $scope.productListLoading = false;
             });
     };
-
-    $scope.filterProductByPriceRange = function () {
-        $scope.productList = [];
-        $scope.productListLoading = true;
-        $http.get('/rest/products/sale-off/').then(res => {
-            $scope.productList = res.data;
-        }).catch(error => { console.error(error); })
-            .finally(function () {
-                $scope.productListLoading = false;
-            });
-    };
-
 
     $scope.filterProductsBySelectedColor = function (selectedColor) {
         // ở product/list.html phần ng-repeat đã thêm filter : selectedColor nên ở đây chỉ cần

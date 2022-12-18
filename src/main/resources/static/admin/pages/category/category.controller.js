@@ -11,7 +11,7 @@ app.controller("category-ctrl", function ($scope, $http) {
 
     $scope.initialize = function () {
         $http.get("/rest/categories").then(resp => {
-            $scope.category = resp.data;
+            $scope.category = resp.data.filter(c => c.isDeleted === false);
         }).catch(error => {
             console.log("Error", error);
         }).finally(function () {
@@ -19,7 +19,7 @@ app.controller("category-ctrl", function ($scope, $http) {
         });
 
         $http.get("/rest/sub-categories").then(resp => {
-            $scope.subcate = resp.data;
+            $scope.subcate = resp.data.filter(s => s.isDeleted === false);
         }).catch(error => {
             console.log("Error", error);
         }).finally(function () {
@@ -30,21 +30,28 @@ app.controller("category-ctrl", function ($scope, $http) {
     $scope.initialize();
 
     $scope.create = function () {
-        var item = angular.copy($scope.form);
+        let item = angular.copy($scope.form);
+        let isDuplicate = false;
         if (item.image_url == null) {
             item.image_url = 'default-user.jpg';
         }
-        //	if(item.name == ){
-        //		console.log("Tên thể loại đã tồn tại")
-        //}
-        $http.post(`/rest/categories`, item).then(resp => {
-            $scope.category.push(resp.data);
-            $scope.reset();
-            alert("Thêm mới thể loại thành công !!");
-        }).catch(error => {
-            alert("Thêm mới thể loại thất bại !!");
-            console.log("Error", error);
+        $scope.category.forEach(cates => {
+            if (cates.name === item.name) {
+                isDuplicate = true;
+            }
         });
+        if (isDuplicate) {
+            alert('Tên danh mục bị trùng!');
+        } else {
+            $http.post(`/rest/categories`, item).then(resp => {
+                $scope.category.push(resp.data);
+                $scope.reset();
+                alert("Thêm mới thể loại thành công !!");
+            }).catch(error => {
+                alert("Thêm mới thể loại thất bại !!");
+                console.log("Error", error);
+            });
+        }
     };
 
     $scope.reset = function () {
@@ -54,9 +61,7 @@ app.controller("category-ctrl", function ($scope, $http) {
     };
 
     $scope.resetSubCate = function () {
-        $scope.formsub = {
-
-        };
+        $scope.formsub = {};
     };
 
     $scope.edit = function (item) {
@@ -112,16 +117,26 @@ app.controller("category-ctrl", function ($scope, $http) {
     };
 
     $scope.createSubCate = function () {
-        var item = angular.copy($scope.formsub);
-        $http.post(`/rest/sub-categories`, item).then(resp => {
-            $scope.subcate.push(resp.data);
-            $scope.resetSubCate();
-            $scope.initialize();
-            alert("Thêm mới danh mục thành công !!");
-        }).catch(error => {
-            alert("Thêm mới danh mục thất bại !!");
-            console.log("Error", error);
+        let item = angular.copy($scope.formsub);
+        let isDuplicate = false;
+        $scope.category.forEach(cates => {
+            if (cates.name === item.name) {
+                isDuplicate = true;
+            }
         });
+        if (isDuplicate) {
+            alert('Tên danh mục phụ bị trùng!');
+        } else {
+            $http.post(`/rest/sub-categories`, item).then(resp => {
+                $scope.subcate.push(resp.data);
+                $scope.resetSubCate();
+                $scope.initialize();
+                alert("Thêm mới danh mục thành công !!");
+            }).catch(error => {
+                alert("Thêm mới danh mục thất bại !!");
+                console.log("Error", error);
+            });
+        }
     };
 
     $scope.updateSubCate = function () {

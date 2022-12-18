@@ -11,6 +11,7 @@
                 <th>Code</th>
                 <th>Description</th>
                 <th>Giá trị giảm</th>
+                <th>Đã dùng?</th>
                 <th>Ngày hiệu lực</th>
                 <th>Ngày kết thúc</th>
                 <th>Ngày update</th>
@@ -32,12 +33,15 @@
                 <td>{{voucher.code}}</td>
                 <td>{{voucher.description}}</td>
                 <td>{{voucher.value}}%</td>
+                <td>{{voucher.isUsed === true ? 'Có':'Không'}}</td>
                 <td>{{voucher.startDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{voucher.endDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{voucher.updatedAt | date:'dd-MM-yyyy'}}</td>
                 <td>
-                    <button type="button" class="btn btn-dark" ng-click="edit(voucher)">Edit</button>
-                    <button type="button" class="btn btn-danger" ng-click="delete(voucher)">Del</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-dark" ng-click="edit(voucher)">Edit</button>
+                        <button type="button" class="btn btn-danger" ng-click="delete(voucher)">Del</button>
+                    </div>
                 </td>
             </tr>
         </tbody>

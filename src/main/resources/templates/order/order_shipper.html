@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOESHY</title>
+    <!-- title icon -->
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <!-- angularjs -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- angularjs route -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+    <!-- custom css -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body ng-app="shoeshy-app" ng-controller="shopping-cart-ctrl">
+<div class="container" ng-controller="product-ctrl">
+    <div ng-controller="favorite-ctrl">
+        <!-- header -->
+        <header th:fragment="header" style="margin-bottom: 10vh;">
+            <!-- Navbar -->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light mb-4">
+                <!-- Container wrapper -->
+                <div class="container">
+                    <!-- Toggle button -->
+                    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Collapsible wrapper -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!-- Navbar brand -->
+                        <a class="navbar-brand mt-2 mt-lg-0" th:href="@{/}">
+                            <img src="/assets/images/shoeshy-logo.png" height="35" alt="ShoeShy Logo" loading="lazy" />
+                            <!-- <small>ShoeShy</small> -->
+                        </a>
+                        <!-- Left links -->
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <!-- category list START -->
+                            <!-- category list END -->
+                        </ul>
+                        <!-- search input -->
+                    </div>
+                    <!-- Right elements -->
+                    <div class="d-flex align-items-center">
+                    </div>
+                    <!-- Container wrapper -->
+            </nav>
+            <!-- Navbar -->
+        </header>
+
+        <main class="row" style="min-height: 100vh;" ng-controller="order-ctrl">
+            <!-- main -->
+            <article class="col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div>
+                            <div><b>Mã đơn hàng</b></div>
+                            <input type="number" class="form-control"  ng-model="id"> <br>
+                            <button class="btn btn-lg btn-success" ng-click="find_order(id)">Tìm kiếm</button>
+                        </div>
+                        <br> <hr>
+                        <b>
+                            <h3>Thông Tin Đơn Hàng</h3>
+                        </b>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Mã đơn hàng</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.id">
+                            </div>
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Người đặt hàng</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.user.fullname">
+                            </div>
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Ngày đặt hàng</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.createdAt">
+                            </div>
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Giá Tiền</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.total">
+                            </div>
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Phương thức thanh toán</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.payment_method">
+                            </div>
+
+                            <div class="mb-2 col-sm-4">
+                                <div><b>Trạng thái đơn hàng</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.orderStatus.name">
+                            </div>
+                            <div class="mb-2 ">
+                                <div><b>Địa chỉ giao hàng</b></div>
+                                <textarea class="form-control" readonly="readonly" ng-model="form.address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <button type="button" ng-show="form.orderStatus.name == 'processing'" class="btn btn-success"
+                            ng-click="update_status_for_shipper(form)">
+                        Hoàn thành
+                    </button>
+                </div>
+            </article>
+        </main>
+    </div>
+</div>
+<!-- footer -->
+<footer th:replace="components/_footer.html :: footer"></footer>
+
+<!-- modals -->
+<div th:replace="components/modal/_term-modal.html"></div>
+<div th:replace="components/modal/_career-modal.html"></div>
+<div th:replace="components/modal/_about-modal.html"></div>
+
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- near-api-js -->
+<script src="https://cdn.jsdelivr.net/npm/near-api-js@0.44.2/dist/near-api-js.min.js" integrity="sha256-W5o4c5DRZZXMKjuL41jsaoBpE/UHMkrGvIxN9HcjNSY="
+        crossorigin="anonymous"></script>
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
+<!-- chat box -->
+<script type="text/javascript" src="https://popupsmart.com/freechat.js"></script>
+<script> window.start.init({ title: "ShoeShy support", message: "Chào quý khách tôi là Putin nhân viên của ShoeShy, tôi có thể giúp gì cho quý khách ạ", color: "#1C86FA", position: "right", placeholder: "Enter your message", withText: "Write with", viaWhatsapp: "Or write us directly via Whatsapp", gty: "Go to your", awu: "and write us", connect: "Connect now", button: "Chat with us", device: "everywhere", logo: "https://d2r80wdbkwti6l.cloudfront.net/ktrwiL7KIHfTxDhRqKweEPOn49cU2I4v.jpg", person: "https://d2r80wdbkwti6l.cloudfront.net/J8r1vVGrGgPHMqvAeaGV6YLAV5quh6P5.jpg", services: [{ "name": "messenger", "content": "100084897218600" }] })</script>
+
+<!-- angularjs app module-->
+<script th:src="@{/assets/js/app.module.js}"></script>
+<!-- angularjs controller -->
+<script th:src="@{/assets/js/product.controller.js}"></script>
+<script th:src="@{/assets/js/favorite.controller.js}"></script>
+<script th:src="@{/assets/js/cart.controller.js}"></script>
+<script th:src="@{/assets/js/user.controller.js}"></script>
+<script th:src="@{/assets/js/order.controller.js}"></script>
+<script th:src="@{/assets/js/contact.controller.js}"></script>
+<!-- custom js -->
+<script th:src="@{/assets/js/script.js}"></script>
+</body>
+</html>

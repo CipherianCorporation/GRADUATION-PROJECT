@@ -8,7 +8,9 @@ app.controller("main-ctrl", function ($scope, $http) {
                 alert('Xin hãy đăng nhập lại!');
                 location.href = '/security/login/form';
             } else {
-                localStorage.setItem("userPrincipal", JSON.stringify(resp.data));
+                const userPrincipal = resp.data;
+                userPrincipal.roles = userPrincipal.roles.map(r => r.authority.replace("ROLE_", ""));
+                localStorage.setItem("userPrincipal", JSON.stringify(userPrincipal));
             }
         }).catch(error => {
             console.log("Error", error);

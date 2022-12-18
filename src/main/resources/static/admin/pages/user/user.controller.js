@@ -5,23 +5,29 @@ app.controller("user-ctrl", function ($scope, $http) {
     $scope.editForm = {};
     $scope.roles = [];
     $scope.searchTextUser = '';
+    $scope.userPrincipal = {};
 
     $scope.initialize = function () {
         $scope.loading = true;
+        $scope.userPrincipal = JSON.parse(localStorage.getItem('userPrincipal'));
         $http.get("/rest/roles").then(resp => {
             new Set(resp.data).forEach(role => {
                 if (!$scope.roles.includes({ id: role.id })) {
                     $scope.roles.push(role);
                 }
             });
+            if (!$scope.userPrincipal.roles.includes("ADMIN")) {
+                $scope.roles = $scope.roles.filter((role) => role.id !== "ADMIN");
+                console.log($scope.roles);
+            }
         }).catch(err => {
             console.error(err);
         });
 
         $http.get(`/rest/users`).then(resp => {
-            $scope.items = resp.data;
-            let i = 0;
-            new Set(resp.data).forEach(user => {
+            // lọc tất cả user isDeleted là false
+            $scope.items = resp.data.filter((prod) => prod.isDeleted === false);
+            new Set($scope.items).forEach(user => {
                 if (!$scope.providers.includes(user.provider)) {
                     $scope.providers.push(user.provider);
                 }
@@ -40,21 +46,22 @@ app.controller("user-ctrl", function ($scope, $http) {
     };
 
     $scope.create = function () {
-        var item = angular.copy($scope.newForm);
+        let item = angular.copy($scope.newForm);
         if (item.image_url == null) {
             item.image_url = 'default-user.jpg';
         }
-
         if (item.role == null) {
             let findRole = $scope.roles.find(({ id }) => id === 'STAFF');
             item.role = findRole.id;
         }
-
         if (item.provider == null) {
             item.provider = $scope.providers.find(p => p === 'DATABASE');
         }
         if (item.enabled == null) {
             item.enabled = true;
+        }
+        if (item.isDeleted == null) {
+            item.isDeleted = false;
         }
 
         let isExist = false;
@@ -70,20 +77,16 @@ app.controller("user-ctrl", function ($scope, $http) {
 
         if (!isExist) {
             let userRole = {};
-
-            console.log(item);
             $http.post(`/rest/users`, item).then(resp => {
                 let message = '';
                 $scope.items.push(resp.data);
                 // save user 
                 userRole = { user: resp.data, role: { id: item.role } };
                 console.log(`Vai trò người dùng đã lưu mới là: ${JSON.stringify(userRole)}`);
-
                 // set quyen cho user
                 $scope.grant_authority(userRole);
-
                 $scope.reset();
-                $scope.initialize();
+                // $scope.initialize();
                 alert(message + 'Tạo người dùng mới thành công');
             }).catch(error => {
                 alert('Lỗi khi tạo người dùng : ' + error.message);
@@ -94,12 +97,12 @@ app.controller("user-ctrl", function ($scope, $http) {
 
     $scope.update = function () {
         let item = angular.copy($scope.editForm);
+        item.isDeleted = false;
         let check = confirm(`Bạn có chắc chắn cập nhật người dùng này không ?`);
         if (check) {
             $http.put(`/rest/admin/${item.id}`, item).then(resp => {
-                let index = $scope.items.findIndex(item => item.id == item.id);
+                let index = $scope.items.findIndex(user => user.id == item.id);
                 $scope.items[index] = item;
-                $scope.initialize();
                 $scope.reset();
                 alert("Cập nhật thành công ");
             }).catch(error => {
@@ -133,11 +136,14 @@ app.controller("user-ctrl", function ($scope, $http) {
     $scope.delete = function (item) {
         let check = confirm(`Bạn có chắn chắc muốn xóa người dùng này không ${item.username}`);
         if (check) {
+            if (item.id === $scope.userPrincipal.id || item.username === $scope.userPrincipal.username) {
+                alert('Không thể xóa người dùng đang đăng nhập');
+                return;
+            }
             $http.delete(`/rest/users/${item.username}`).then(resp => {
                 let index = $scope.items.findIndex(p => p.username == item.username);
                 $scope.items.splice(index, 1);
                 $scope.reset();
-                $scope.initialize();
                 alert('Xóa người dùng thành công');
             }).catch(error => {
                 alert('Lỗi khi tạo người dùng : ' + error.message);

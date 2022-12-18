@@ -72,4 +72,9 @@ public class OrderController {
 
         excelExporter.export(response);
     }
+
+    @GetMapping("/order/shipper")
+    public String viewDetailForShipper(){
+        return "order/order_shipper";
+    }
 }

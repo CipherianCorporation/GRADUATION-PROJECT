@@ -64,8 +64,8 @@ public class PaypalController {
         if (_total == 0.0) {
             return ResponseEntity.ok(CHECKOUT_PAGE_URL);
         }
-        String cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL;
-        String successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL;
+        String cancelUrl = URLUtils.getBaseURl(_request) + PAYPAL_CANCEL_URL;
+        String successUrl = URLUtils.getBaseURl(_request) + PAYPAL_SUCCESS_URL;
 
         try {
             Payment payment = paypalService.createPayment(
@@ -106,7 +106,7 @@ public class PaypalController {
             if (payment.getState().equals("approved")) {
                 Order createdOrder = orderService.create(orderJsonNode);
                 JsonNode tmpOrderJsonNode = mapper.convertValue(createdOrder, JsonNode.class);
-
+                System.out.println(request.getRequestURI());
                 orderService.sendEmailReceipt(tmpOrderJsonNode, request);
                 model.addAttribute("message",
                         "Bạn đã thanh toán Paypal thành công, chúng tôi đã gửi email hóa đơn vào hòm thư của bạn!");

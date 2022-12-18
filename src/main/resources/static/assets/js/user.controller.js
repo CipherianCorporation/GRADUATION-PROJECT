@@ -39,6 +39,7 @@ function userController($scope, $http, $interval) {
 
     $scope.update = function () {
         let item = angular.copy($scope.form);
+        item.isDeleted = false;
         $http.put(`/rest/users/${item.id}`, item).then(resp => {
             let index = $scope.items.findIndex(p => p.id == item.id);
             $scope.items[index] = item;

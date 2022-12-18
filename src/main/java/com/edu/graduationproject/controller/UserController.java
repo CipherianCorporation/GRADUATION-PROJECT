@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.edu.graduationproject.entity.User;
+import com.edu.graduationproject.service.ForgotPasswordService;
 import com.edu.graduationproject.service.UserService;
 import com.edu.graduationproject.utils.CommonUtils;
 
@@ -28,6 +30,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    ForgotPasswordService forgotPasswordService;
 
     @GetMapping("/account/signup")
     public String form(Model model) {
@@ -48,12 +53,16 @@ public class UserController {
         Optional<User> existUserByEmail = userService.findByEmail(user.getEmail());
         Optional<User> existUserByUsername = userService.findByUsername(user.getUsername());
         if (existUserByEmail.isPresent()) {
-            model.addAttribute("message", "User with email " + user.getEmail() + " is already registered");
-            return "account/signup";
+            if (existUserByEmail.get().getIsDeleted() == false) {
+                model.addAttribute("message", "User with email " + user.getEmail() + " is already registered");
+                return "account/signup";
+            }
         }
         if (existUserByUsername.isPresent()) {
-            model.addAttribute("message", "User with username " + user.getUsername() + " is already registered");
-            return "account/signup";
+            if (existUserByUsername.get().getIsDeleted() == false) {
+                model.addAttribute("message", "User with username " + user.getUsername() + " is already registered");
+                return "account/signup";
+            }
         }
         userService.register(user, CommonUtils.getSiteURL(req));
         model.addAttribute("message", "Please check your email to verify your account");
@@ -67,6 +76,22 @@ public class UserController {
         } else {
             return "account/verify-fail";
         }
-
     }
+    
+    @GetMapping("/account/change_password")
+    public String change_password() {
+    	return "account/change_password";
+    }
+    
+    @PostMapping("/account/change_password")
+    public String showResetPasswordForm(Model model, Authentication authentication, @RequestParam("password") String password, 
+    		RedirectAttributes redirAttrs) {
+    	Optional<User> loggedinUser = userService.findByUsername(authentication.getName());
+    	if(loggedinUser.isPresent()) {
+    		forgotPasswordService.updatePassword(loggedinUser.get(), password);
+    	}	
+    	redirAttrs.addFlashAttribute("message", "Đổi mật khẩu thành công");
+    	return "redirect:/security/logoff";
+    }
+    
 }

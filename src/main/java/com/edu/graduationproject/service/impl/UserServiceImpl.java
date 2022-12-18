@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
+import org.apache.commons.collections4.functors.FalsePredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -92,9 +93,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByUsername(String username) {
-        userRepo.deleteByUsername(username);
-
+    public User deleteByUsername(String username) {
+        Optional<User> findUser = userRepo.findByUsername(username);
+        if (findUser.isPresent()) {
+            findUser.get().setIsDeleted(true);
+            findUser.get().setEnabled(false);
+            findUser.get().setDeletedAt(new Date());
+            return userRepo.save(findUser.get());
+        }
+        return null;
     }
 
     @Override
@@ -113,10 +120,10 @@ public class UserServiceImpl implements UserService {
         String randomCode = RandomString.make(64);
         user.setPassword(encodedPassword);
         user.setVerify_code(randomCode);
+        user.setIsDeleted(false);
         user.setEnabled(false);
         user.setProvider(EAuthProvider.DATABASE);
         User save = userRepo.save(user);
-
         // set role USER cho user vì nếu là người dùng bình thường đăng ký thì chỉ set
         // role là USER
         Optional<Role> role = roleRepo.findById("USER");

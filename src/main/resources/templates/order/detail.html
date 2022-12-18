@@ -43,9 +43,13 @@
                         <div><b>Trạng thái đơn hàng</b></div>
                         <input type="text" class="form-control" readonly="readonly" ng-model="form.order.orderStatus.name">
                     </div>
-                    <div class="mb-2 ">
+                    <div class="mb-2 col-sm-4">
+                        <div><b>SDT</b></div>
+                        <input type="text" class="form-control" readonly="readonly" ng-model="form.order.user.phone">
+                    </div>
+                    <div class="mb-2 col-sm-8">
                         <div><b>Địa chỉ giao hàng</b></div>
-                        <textarea class="form-control" readonly="readonly" ng-model="form.order.address"></textarea>
+                        <input class="form-control" readonly="readonly" ng-model="form.order.address"></input>
                     </div>
                 </div>
             </div>

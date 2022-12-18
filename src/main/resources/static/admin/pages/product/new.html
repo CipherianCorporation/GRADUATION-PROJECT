@@ -54,6 +54,7 @@
             <input type="number" id="sale_off" class="form-control" ng-model="newForm.sale_off" name="sale_off" min="0" max="100" title="Min sale off is 0%"
                 required />
         </div>
+        <div class="text-danger" ng-show="myNewForm.sale_off.$invalid">Phần trăm giảm từ 0-100%.</div>
     </div>
 
     <!-- Text input -->
@@ -93,5 +94,5 @@
     </div>
 
     <!-- Submit button -->
-    <button type="button" ng-disabled="myNewForm.$invalid" ng-click="create()" class="btn btn-success btn-block mt-4 mb-4">Tạo mới</button>
+    <button type="button" ng-disabled="myNewForm.$invalid" ng-click="create()" class="btn btn-success btn-block mb-4">Tạo mới</button>
 </form>

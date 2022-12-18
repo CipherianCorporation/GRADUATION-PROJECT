@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -153,20 +154,25 @@ public class Testsignup {
 				driver.findElement(By.id("floatingRetype")).sendKeys(repass);
 				System.out.println(repass);
 				Thread.sleep(1000);
-				driver.findElement(By.name("ok")).click();
-				
-				
 				String actutitle = driver.getTitle();
-				if(actutitle.equalsIgnoreCase(excepted)) {
+				
+				driver.findElement(By.xpath("//*[@id=\"termCheck\"]")).click();
+				Thread.sleep(1000);
+				driver.findElement(By.name("ok")).click();
+				WebElement tt = driver.findElement(By.xpath("/html/body/div[1]/main/article/section/div/div/div/div/form/div/div[6]/span"));
+				Thread.sleep(5000);
+				String t = "Please check your email to verify your account";
+				
+				if(tt.getText().equalsIgnoreCase(t)) {
 					TestNGResult.put(String.valueOf(index +1), new Object[] {
 							String.valueOf(index),
 							username,
 							mail,
 							pass,
 							repass,
-							"testtitle",
+							"Tes sign up",
 							excepted,
-							actutitle,
+							"Sign is sucess",
 							"PASS",
 							formattedDate,
 							""
@@ -181,7 +187,7 @@ public class Testsignup {
 							repass,
 							"testtitle",
 							excepted,
-							actutitle,
+							"Sign up is fail",
 							"Fail",
 							formattedDate,
 							""
@@ -196,77 +202,77 @@ public class Testsignup {
 		}
 	}
 	
-	@Test
-	public void testpass() {
-		try {
-			Set<String> keyset = dataLoginTest.keySet();
-			int index = 1;
-			for(String key : keyset) {
-				String[] value = dataLoginTest.get(key);
-				String username = value[0];
-				String mail = value[1];
-				String pass = value[2];
-				String repass = value[3];
-				String excepted = value[4];
-				 
-				 
-				LocalDateTime myDateobj = LocalDateTime.now();
-				DateTimeFormatter myFormatobj = DateTimeFormatter.ofPattern("HH:mm:ss | dd-MM-yyyy");
-				String formattedDate = myDateobj.format(myFormatobj);
-				
-				driver.get("http://localhost:8080/account/signup");
-				
-				driver.findElement(By.id("floatingUsername")).sendKeys(username);
-				System.out.println(username);
-				driver.findElement(By.id("floatingEmail")).sendKeys(mail);
-				System.out.println(mail);
-				driver.findElement(By.id("password")).sendKeys(pass);
-				System.out.println(pass);
-				driver.findElement(By.id("floatingRetype")).sendKeys(repass);
-				System.out.println(repass);
-				Thread.sleep(1000);
-				driver.findElement(By.name("ok")).click();
-				
-				
-				String actutitle = driver.getTitle();
-				if(pass.equalsIgnoreCase(repass)) {
-					TestNGResult.put(String.valueOf(index +1), new Object[] {
-							String.valueOf(index),
-							username,
-							mail,
-							pass,
-							repass,
-							"testpassword",
-							excepted,
-							actutitle,
-							"PASS",
-							formattedDate,
-							""
-							
-					});
-				}else {
-					TestNGResult.put(String.valueOf(index +1), new Object[] {
-							String.valueOf(index),
-							username,
-							mail,
-							pass,
-							repass,
-							"testpassword",
-							excepted,
-							actutitle,
-							"Fail",
-							formattedDate,
-							""
-							
-					});
-					
-				}
-				index++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void testpass() {
+//		try {
+//			Set<String> keyset = dataLoginTest.keySet();
+//			int index = 1;
+//			for(String key : keyset) {
+//				String[] value = dataLoginTest.get(key);
+//				String username = value[0];
+//				String mail = value[1];
+//				String pass = value[2];
+//				String repass = value[3];
+//				String excepted = value[4];
+//				 
+//				 
+//				LocalDateTime myDateobj = LocalDateTime.now();
+//				DateTimeFormatter myFormatobj = DateTimeFormatter.ofPattern("HH:mm:ss | dd-MM-yyyy");
+//				String formattedDate = myDateobj.format(myFormatobj);
+//				
+//				driver.get("http://localhost:8080/account/signup");
+//				
+//				driver.findElement(By.id("floatingUsername")).sendKeys(username);
+//				System.out.println(username);
+//				driver.findElement(By.id("floatingEmail")).sendKeys(mail);
+//				System.out.println(mail);
+//				driver.findElement(By.id("password")).sendKeys(pass);
+//				System.out.println(pass);
+//				driver.findElement(By.id("floatingRetype")).sendKeys(repass);
+//				System.out.println(repass);
+//				Thread.sleep(1000);
+//				driver.findElement(By.name("ok")).click();
+//				
+//				
+//				String actutitle = driver.getTitle();
+//				if(pass.equalsIgnoreCase(repass)) {
+//					TestNGResult.put(String.valueOf(index +1), new Object[] {
+//							String.valueOf(index),
+//							username,
+//							mail,
+//							pass,
+//							repass,
+//							"testpassword",
+//							excepted,
+//							actutitle,
+//							"PASS",
+//							formattedDate,
+//							""
+//							
+//					});
+//				}else {
+//					TestNGResult.put(String.valueOf(index +1), new Object[] {
+//							String.valueOf(index),
+//							username,
+//							mail,
+//							pass,
+//							repass,
+//							"testpassword",
+//							excepted,
+//							actutitle,
+//							"Fail",
+//							formattedDate,
+//							""
+//							
+//					});
+//					
+//				}
+//				index++;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@AfterClass
 	public void suiteteardown(){

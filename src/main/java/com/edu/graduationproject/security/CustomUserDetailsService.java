@@ -28,6 +28,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         return user.map(CustomUserDetails::new).get();
     }
 
-
-
 }

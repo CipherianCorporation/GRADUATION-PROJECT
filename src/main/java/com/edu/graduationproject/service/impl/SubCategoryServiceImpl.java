@@ -1,6 +1,8 @@
 package com.edu.graduationproject.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +45,13 @@ public class SubCategoryServiceImpl implements SubCategoryService {
 
     @Override
     public void deleteById(Integer id) {
-        repo.deleteById(id);
+        // repo.deleteById(id);
+        Optional<SubCategory> findSubCates = repo.findById(id);
+        if (findSubCates.isPresent()) {
+			findSubCates.get().setIsDeleted(true);
+			findSubCates.get().setDeletedAt(new Date());
+			repo.save(findSubCates.get());
+		}
     }
 
 }

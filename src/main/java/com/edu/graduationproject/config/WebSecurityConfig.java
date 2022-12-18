@@ -79,6 +79,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/rest/sub-categories/**",
                                                 "/rest/voucher/**",
                                                 "/rest/send_contact",
+                                                "/order/shipper",
+                                                "/rest/vouchers/**",
                                                 "/cart/**",
                                                 "/account/signup",
                                                 "/account/contact",
@@ -102,6 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/**/*.js")
                                 .permitAll()
                                 .antMatchers("/admin/products/**",
+                                                "/admin",
+                                                "/admin/home/index",
                                                 "/admin/users/**",
                                                 "/admin/orders/**",
                                                 "/rest/roles",
@@ -112,7 +116,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/rest/orders/revenue",
                                                 "/rest/sub-categories/product-sold")
                                 .hasAnyRole("ADMIN", "STAFF")
-                                .antMatchers("/rest/authorities/**").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.GET, "/rest/authorities/**").hasAnyRole("STAFF", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/rest/authorities/**").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/rest/authorities/**").hasRole("ADMIN")
                                 .anyRequest().authenticated(); // permitAll để code, debug dễ, nên để thành
                                                                // authenticated()
                                                                // sau khi xong

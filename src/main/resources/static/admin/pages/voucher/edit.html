@@ -3,13 +3,13 @@
     <!-- Text input -->
     <label for="form6Example3">ID</label>
     <div class="form-outline-primary mb-4">
-        <input type="text" id="z" class="form-control" ng-model="form.id" name="name" disabled />
+        <input type="text" id="id" class="form-control" ng-model="form.id" name="id" disabled />
     </div>
 
     <!-- Text input -->
     <label for="form6Example3">Code</label>
     <div class="form-outline-primary mb-4">
-        <input type="text" id="form6Example3" class="form-control" ng-model="form.code" name="code" required />
+        <input type="text" id="form6Example3" class="form-control" ng-model="form.code" name="code" required disabled/>
         <div class="text-danger" ng-show="myform1.code.$invalid">Vui lòng nhập code.</div>
     </div>
 
@@ -38,7 +38,7 @@
     <!-- Text input -->
     <label for="form6Example3">Ngày kết thúc</label>
     <div class="form-outline-primary mb-4">
-        <input type="date" class="form-control" ng-bind="form.endDate" ng-value="form.endDate" name="end_date" required />
+        <input type="text" class="form-control" ng-bind="form.endDate" ng-value="form.endDate" name="end_date" required />
         <div class="text-danger" ng-show="myform1.end_date.$invalid">Vui lòng nhập ngày bắt đầu.</div>
     </div>
 

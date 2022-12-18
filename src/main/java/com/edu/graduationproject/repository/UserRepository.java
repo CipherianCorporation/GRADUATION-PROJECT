@@ -11,7 +11,7 @@ import com.edu.graduationproject.entity.User;
 import com.edu.graduationproject.model.EAuthProvider;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query("SELECT u FROM User u WHERE u.username = ?1")
+    @Query(value = "SELECT * FROM users u WHERE u.username = ?1 AND u.is_deleted = 0", nativeQuery = true)
     public Optional<User> findByUsername(String username);
 
     @Query("SELECT u FROM User u WHERE u.email = ?1")
@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.reset_pwd_token = ?1")
     public Optional<User> findByResetPasswordToken(String token);
 
-    @Query("SELECT o FROM User o WHERE verify_code=?1")
+    @Query("SELECT o FROM User o WHERE o.verify_code=?1")
     public User findByVerifyCode(String code);
 
     // Derived Query - for checking if User exist by email
@@ -42,6 +42,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public void updateAuthenticationTypeOAuth(String email, EAuthProvider provider);
 
     @Modifying
-    @Query("UPDATE User u SET u.provider = ?2 WHERE u.username = ?1")
+    @Query("UPDATE User u SET u.provider = ?2 WHERE u.username = ?1 AND u.isDeleted = FALSE")
     public void updateAuthenticationTypeDB(String username, EAuthProvider provider);
 }

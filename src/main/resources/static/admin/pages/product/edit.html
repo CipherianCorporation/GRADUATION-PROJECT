@@ -57,9 +57,10 @@
     <label class="form-label" for="customRange1">Giảm giá: <strong>{{editForm.sale_off}}%</strong></label>
     <div class="form-outline-primary mb-4">
         <div class="range">
-            <input type="number" id="sale_off" class="form-control" ng-model="editForm.sale_off" name="sale_off" min="0" max="100" title="Min sale off is 0%"
+            <input type="number" class="form-control" ng-model="editForm.sale_off" name="sale_off" min="0" max="100" title="Min sale off is 0%"
                 required />
         </div>
+        <div class="text-danger" ng-show="myEditForm.sale_off.$invalid">Phần trăm giảm từ 0-100%.</div>
     </div>
 
     <!-- Text input -->
@@ -76,7 +77,8 @@
     <div class="form-outline-primary mb-4">
         <select class="select" ng-model="editForm.subCategory.id">
             <option ng-if="sub_categories.length === 0" disabled selected>Đang load...</option>
-            <option ng-selected="editForm.subCategory.id == c.id" value="{{c.id}}" ng-value="c.id" ng-repeat="c in sub_categories | filter: { category: { id: editForm.category.id} }">{{c.name}}</option>
+            <option ng-selected="editForm.subCategory.id == c.id" value="{{c.id}}" ng-value="c.id"
+                ng-repeat="c in sub_categories | filter: { category: { id: editForm.category.id} }">{{c.name}}</option>
         </select>
     </div>
 
@@ -99,5 +101,5 @@
     </div>
 
     <!-- Submit button -->
-    <button ng-disabled="myEditForm.$invalid" ng-click="update()" type="submit" class="btn btn-success btn-block mt-4 mb-4">Cập nhập</button>
+    <button ng-disabled="myEditForm.$invalid" ng-click="update()" type="submit" class="btn btn-success btn-block mb-4">Cập nhập</button>
 </form>

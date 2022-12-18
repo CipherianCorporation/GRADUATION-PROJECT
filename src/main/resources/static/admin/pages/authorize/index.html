@@ -7,45 +7,39 @@
             </div>
         </div>
     </section>
-
-
     <!-- Content here -->
     <div class="card">
         <div class="card-header">
-            <i class="fas fa-exchange-alt"></i> 
+            <i class="fas fa-exchange-alt"></i>
             <strong>Chỉnh Sửa Quyền Truy Cập</strong>
         </div>
         <table class="table">
             <thead class="table-secondary">
                 <tr>
-                	<th><i class="fas fa-file-signature"></i> Họ và Tên</th>
-                	<th><i class="fas fa-user-circle"></i> Tài Khoản Truy Cập</th>
+                    <th><i class="fas fa-file-signature"></i> Họ và Tên</th>
+                    <th><i class="fas fa-user-circle"></i> Tài Khoản Truy Cập</th>
                     <th ng-repeat="role in roles">{{role.id}}</th>
-                    
                 </tr>
             </thead>
             <tbody>
-            
-            	<tr ng-show="loading">
-                	<td colspan="2">
-                    	<div class="d-flex justify-content-center my-4">
-                        	<div class="spinner-border" role="status">
-                            	<span class="visually-hidden">Loading...</span>
-                        	</div>
-                    	</div>
-                	</td>
-           		 </tr>
-            
-                <tr ng-repeat="acc in admins">
-                	<th>{{acc.fullname}}</th>
-                    <th class="text-success" scope="row">{{acc.username}}</th>
-                    <td ng-repeat="role in roles">
-                        <div>
-                            <input ng-checked="authority_of(acc,role)" ng-click="authority_changed(acc,role)" type="checkbox" />
+                <tr ng-show="loading">
+                    <td colspan="4">
+                        <div class="d-flex justify-content-center my-4">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
                     </td>
                 </tr>
-                
+                <tr ng-repeat="acc in admins">
+                    <th>{{acc.fullname}}</th>
+                    <th class="text-success" scope="row">{{acc.username}}</th>
+                    <td ng-repeat="role in roles">
+                        <div>
+                            <input ng-disabled="!userPrincipal.roles.includes('ADMIN')" ng-checked="authority_of(acc,role)" ng-click="authority_changed(acc,role)" type="checkbox" />
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

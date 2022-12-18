@@ -3,6 +3,7 @@ app.controller("order-ctrl", orderCtrl);
 
 function orderCtrl($scope, $http, $window) {
     $scope.list_items = [];
+    $scope.items = [];
     $scope.detail_items = [];
     $scope.form = {};
     $scope.user = {};
@@ -74,6 +75,36 @@ function orderCtrl($scope, $http, $window) {
     $scope.update_status = function (item) {
         item.orderStatus.name = "cancel";
         let check = confirm(`Bạn có muốn hủy đơn ${item.id}?`);
+        if (check) {
+            $http.put(`/rest/order/orderstatus/${item.id}`, item).then(resp => {
+                $scope.initialize();
+                alert("Cập nhập trạng thái đơn hàng thành công");
+            }).catch(error => {
+                alert("Lỗi cập nhập trạng thái");
+                $scope.initialize();
+                console.log("Error", error);
+            });
+        }
+    };
+
+    $scope.find_order = function (id){
+        console.log(id)
+        $http.get(`/rest/order/${id}`).then(resp => {
+            $scope.form =  resp.data[0];
+            console.log($scope.form)
+            if ($scope.form === undefined){
+                alert("Đơn hàng không tồn tại")
+            }
+        }).catch(error => {
+            console.log("Error", error);
+        }).finally(function () {
+            $scope.loading = false;
+        });
+    }
+
+    $scope.update_status_for_shipper = function (item) {
+        item.orderStatus.name = "success";
+        let check = confirm(`Bạn đã hoàn thành đơn hàng ${item.id}?`);
         if (check) {
             $http.put(`/rest/order/orderstatus/${item.id}`, item).then(resp => {
                 $scope.initialize();

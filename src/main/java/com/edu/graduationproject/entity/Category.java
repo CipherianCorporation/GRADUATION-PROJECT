@@ -31,6 +31,8 @@ public class Category implements Serializable {
     private Integer id;
     private String name;
     private String image_url;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // bắt buộc dùng @TemporalType.Date cho các class từ java.util.*
     @Temporal(TemporalType.DATE)

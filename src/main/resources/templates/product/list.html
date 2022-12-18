@@ -69,9 +69,12 @@
                                 <span style="color: grey;">Đã bán {{p.sold}}</span>
                             </div>
                             <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" ng-click="cart.add(p.id)">
+                                <!-- disabled button nếu available == false hoặc stock == 0 => hết hàng -->
+                                <button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" ng-click="cart.add(p.id)"
+                                    ng-if="p.available">
                                     Thêm vào giỏ
                                 </button>
+                                <button ng-if="(!p.available)" class="btn btn-secondary" disabled>Hết hàng</button>
                             </div>
                         </div>
                     </div>

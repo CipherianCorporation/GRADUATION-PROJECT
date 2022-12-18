@@ -90,6 +90,9 @@
                                 <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_STAFF')">
                                     <a class="dropdown-item" th:href="@{/account/editprofile}">Chỉnh sửa tài khoản</a>
                                 </li>
+                                <li th:if="${#request.isUserInRole('ROLE_USER') or #request.isUserInRole('ROLE_STAFF') or #request.isUserInRole('ROLE_ADMIN')}">
+                                    <a class="dropdown-item" th:href="@{/account/change_password}">Đổi mật khẩu</a>
+                                </li>
                                 <li>
                                     <a class="dropdown-item" th:href="@{/order/list}" ng-click="swich_order_list()">Đơn hàng</a>
                                 </li>

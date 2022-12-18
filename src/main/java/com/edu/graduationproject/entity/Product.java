@@ -40,7 +40,8 @@ public class Product implements Serializable {
     private String image;
     private Double price;
     private Boolean available;
-
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
     @ManyToOne
     @JoinColumn(name = "color")
     private Color color;

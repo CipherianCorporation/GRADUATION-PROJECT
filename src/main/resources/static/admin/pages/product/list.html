@@ -7,6 +7,7 @@
     <table class="table">
         <thead class="table-light">
             <tr>
+                <th><strong>#</strong></th>
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Ảnh</th>
@@ -35,6 +36,7 @@
                 </th>
             </tr>
             <tr ng-repeat="item in pager.items | filter: searchTextProduct">
+                <td>{{$index + 1}}</td>
                 <td>{{item.id}}</td>
                 <td>{{item.name | limitTo: 10}}{{item.name.length > 10 ? '...' : ''}}</td>
                 <td>{{item.image | limitTo: 10}}{{item.image.length > 10 ? '...' : ''}}</td>
@@ -50,8 +52,10 @@
                 <td>{{item.updatedAt | date:'dd-MM-yyyy'}}</td>
                 <td>{{item.createdAt | date:'dd-MM-yyyy'}}</td>
                 <td>
-                    <button type="button" class="btn btn-dark" ng-click="edit(item)">Edit</button>
-                    <button type="button" class="btn btn-danger" ng-click="delete(item)">Del</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-dark" ng-click="edit(item)">Edit</button>
+                        <button type="button" class="btn btn-danger" ng-click="delete(item)">Del</button>
+                    </div>
                 </td>
             </tr>
         </tbody>

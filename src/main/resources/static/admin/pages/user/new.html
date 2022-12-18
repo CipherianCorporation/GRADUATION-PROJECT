@@ -14,42 +14,42 @@
     <!-- Text input -->
     <label for="newFormUsername">Tên nguời dùng</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.username" name="username" type="text" id="newFormUsername" class="form-control" required/>
+        <input ng-model="newForm.username" name="username" type="text" id="newFormUsername" class="form-control" required />
         <div class="text-danger" ng-show="myNewForm.username.$invalid">Làm ơn nhập tên người dùng hợp lệ.</div>
     </div>
 
     <!-- Text input -->
     <label for="newFormPassword">Mật khẩu</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.password" name="password" type="password" id="newFormPassword" class="form-control" required/>
+        <input ng-model="newForm.password" name="password" type="password" id="newFormPassword" class="form-control" minlength="6" required />
         <div class="text-danger" ng-show="myNewForm.password.$invalid">Làm ơn nhập mật khẩu hợp lệ.</div>
     </div>
 
     <!-- Text input -->
     <label for="newFormFullname">Họ và tên</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.fullname" name="fullname" type="text" id="newFormFullname" class="form-control" required/>
+        <input ng-model="newForm.fullname" name="fullname" type="text" id="newFormFullname" class="form-control" required />
         <div class="text-danger" ng-show="myNewForm.fullname.$invalid">Làm ơn nhập họ và tên hợp lệ.</div>
     </div>
 
     <!-- Text input -->
     <label for="newFormEmail">Email</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.email" name="email" type="email" id="newFormEmail" class="form-control" required/>
+        <input ng-model="newForm.email" name="email" type="email" id="newFormEmail" class="form-control" required />
         <div class="text-danger" ng-show="myNewForm.email.$invalid">Làm ơn nhập email hợp lệ.</div>
     </div>
 
     <!-- Number input -->
     <label for="newFormPhone">Số điện thoại</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.phone" name="phone" type="number" id="newFormPhone" class="form-control" required/>
+        <input ng-model="newForm.phone" name="phone" type="number" id="newFormPhone" class="form-control" required />
         <div class="text-danger" ng-show="myNewForm.phone.$invalid">Làm ơn nhập số điện thoại hợp lệ.</div>
     </div>
 
     <!-- Text input -->
     <label for="newFormAddress">Địa chỉ</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.address" name="address" type="text" id="newFormAddress" class="form-control" required/>
+        <input ng-model="newForm.address" name="address" type="text" id="newFormAddress" class="form-control" required />
         <div class="text-danger" ng-show="myNewForm.address.$invalid">Làm ơn nhập địa chỉ hợp lệ.</div>
     </div>
     <div class="mb-4">
@@ -60,5 +60,5 @@
     </div>
 
     <!-- Submit button -->
-    <button ng-disabled="myNewForm.$invalid" ng-click="create()" type="submit" class="btn btn-success btn-block mt-4 mb-4">Tạo mới</button>
+    <button ng-disabled="myNewForm.$invalid" ng-click="create()" type="submit" class="btn btn-success btn-block mb-4">Tạo mới</button>
 </form>

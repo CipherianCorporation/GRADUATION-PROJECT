@@ -3,13 +3,16 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.edu.graduationproject.test.ahha">
+      <class name="com.edu.graduationproject.test.Admin">
         <methods>
-          <include name="dologinDetails"/>
-          <include name="teardown"/>
-          <include name="suiteseup"/>
+          <include name="suiteteardown"/>
+          <include name="launcherfail"/>
+          <include name="user"/>
+          <include name="close"/>
+          <include name="connect"/>
+          <include name="open"/>
         </methods>
-      </class> <!-- com.edu.graduationproject.test.ahha -->
+      </class> <!-- com.edu.graduationproject.test.Admin -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

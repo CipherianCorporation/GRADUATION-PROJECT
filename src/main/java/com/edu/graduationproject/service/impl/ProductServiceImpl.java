@@ -1,13 +1,16 @@
 package com.edu.graduationproject.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.edu.graduationproject.entity.Product;
 import com.edu.graduationproject.repository.ProductRepository;
 import com.edu.graduationproject.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,12 +21,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAll() {
         return repo.findAll();
     }
-    
+
     @Override
     public List<Product> findAll(Sort sort) {
         return repo.findAll(sort);
     }
-    
+
     @Override
     public List<Product> findAllBySaleOff() {
         return repo.findAllBySaleOff();
@@ -70,11 +73,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(Integer id) {
-        repo.deleteById(id);
+    public Product delete(Integer id) {
+        Optional<Product> findProduct = repo.findById(id);
+        if (findProduct.isPresent()) {
+            findProduct.get().setIsDeleted(true);
+            findProduct.get().setDeletedAt(new Date());
+            return repo.save(findProduct.get());
+        }
+        return null;
     }
-
-
-
 
 }

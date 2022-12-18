@@ -38,6 +38,8 @@ public class Voucher implements Serializable {
     private String code;
     private String description;
     private Double value;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // bắt buộc dùng @TemporalType.Date cho các class từ java.util.*
     @Temporal(TemporalType.DATE)
@@ -50,8 +52,11 @@ public class Voucher implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Column(name = "is_used")
+    private Boolean isUsed;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders = new HashSet<>();
+    @OneToMany(mappedBy = "voucher")
+    private List<Order> orders;
 
 }

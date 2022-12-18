@@ -67,19 +67,37 @@ public class OrderRestController {
 
     @PostMapping("/rest/orders")
     public ResponseEntity<Order> create(@RequestBody JsonNode orderData) {
-        if (orderData.get("total").asDouble() == 0) {
+        JsonNode total = orderData.get("total");
+        JsonNode address = orderData.get("address");
+        JsonNode user = orderData.get("user");
+        if (total == null || address == null || user == null) {
             return ResponseEntity.badRequest().build();
+        }
+        if(user != null){
+            JsonNode username = user.get("username");
+            if(username == null){
+                return ResponseEntity.badRequest().build();
+            }
         }
         return ResponseEntity.ok(orderService.create(orderData));
     }
 
     @PostMapping("/rest/orders/send-email-receipt")
     public ResponseEntity<Object> sendEmailReceipt(HttpServletRequest request, @RequestBody JsonNode orderData) {
-        if (orderData.get("total").asDouble() == 0) {
+        JsonNode total = orderData.get("total");
+        JsonNode address = orderData.get("address");
+        JsonNode user = orderData.get("user");
+        if (total == null || address == null || user == null) {
             return ResponseEntity.badRequest().build();
         }
+        if(user != null){
+            JsonNode username = user.get("username");
+            if(username == null){
+                return ResponseEntity.badRequest().build();
+            }
+        }
         orderService.sendEmailReceipt(orderData, request);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("Send email receipt successfully");
     }
 
     // Example: GET
