@@ -118,10 +118,11 @@ function shoppingCartCtrl($scope, $http, $window) {
                 console.log('voucher exist and not deleted');
                 let todayDate = new Date();
                 let voucherEndDate = new Date(resp.data.endDate);
-                if (todayDate > voucherEndDate) {
+                let voucherStartDate = new Date(resp.data.startDate);
+                if (todayDate > voucherEndDate || todayDate < voucherStartDate) {
                     $scope.voucherResponse = {};
                     console.log('voucher hết hạn!');
-                } else if (todayDate < voucherEndDate) {
+                } else if (todayDate < voucherEndDate && todayDate > voucherStartDate) {
                     $scope.voucherResponse = resp.data;
                     console.log('voucher còn hạn!');
                 }

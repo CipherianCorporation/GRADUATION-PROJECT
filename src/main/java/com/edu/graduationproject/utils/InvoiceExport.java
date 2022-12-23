@@ -46,7 +46,7 @@ public class InvoiceExport {
     }
 
     private void writeTableData(PdfPTable table) {
-        NumberFormat numberFormatter = new DecimalFormat("##,###,###.000");
+        NumberFormat numberFormatter = new DecimalFormat("##,###,###.00");
 
         for (OrderDetails order : listOrderDetails) {
             table.addCell(String.valueOf(order.getProduct().getId()));
@@ -75,14 +75,16 @@ public class InvoiceExport {
         Font font1 = FontFactory.getFont(FontFactory.TIMES_ROMAN);
         font1.setSize(15);
 
-        NumberFormat numberFormatter = new DecimalFormat("##,###,###.000");
-        SimpleDateFormat sm = new SimpleDateFormat("MMM dd yyyy HH:mm:ss");
+        NumberFormat numberFormatter = new DecimalFormat("##,###,###.00");
+        SimpleDateFormat sm = new SimpleDateFormat("MMM dd yyyy");
+
+        String paymentMethod = order.getPayment_method().toString().equals("cod")?order.getPayment_method()+" ( 20,000 d)" : order.getPayment_method().toString();
 
         Paragraph p1 = new Paragraph("Code orders: "+ order.getId()
                 +"\nRecipient's name: " + order.getUser().getFullname()
                 +"\nPhone: "+order.getUser().getPhone()
                 +"\nAddress: "+order.getAddress()
-                +"\nPayment method: "+order.getPayment_method()
+                +"\nPayment method: "+paymentMethod
                 +"\nOrder date: "+ sm.format(order.getCreatedAt()), font1);
         p1.setAlignment(Paragraph.ALIGN_LEFT);
 

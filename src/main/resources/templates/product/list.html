@@ -51,6 +51,10 @@
                             <a class="text-white" href="#">Sale: {{p.sale_off | number: 0}}%</a>
                         </div>
 
+<!--                        <div ng-show="p.stock <= 0" class="label-top bg-danger shadow-sm">-->
+<!--                            <a class="text-white" href="#">Hết hàng</a>-->
+<!--                        </div>-->
+
                         <div class="hover-overlay" style="top: 5px; left: 5px; position: absolute; cursor: pointer;">
                             <a class="text-secondary" ng-click="addToFavorite(p.id)" onmouseover="changeClassName(this, 'text-secondary','text-danger')"
                                 onmouseleave="changeClassName(this, 'text-secondary','text-danger')">
@@ -71,10 +75,10 @@
                             <div class="d-grid gap-2">
                                 <!-- disabled button nếu available == false hoặc stock == 0 => hết hàng -->
                                 <button type="button" class="btn btn-outline-secondary" data-mdb-ripple-color="dark" ng-click="cart.add(p.id)"
-                                    ng-if="p.available">
+                                    ng-if="p.available && p.stock > 0">
                                     Thêm vào giỏ
                                 </button>
-                                <button ng-if="(!p.available)" class="btn btn-secondary" disabled>Hết hàng</button>
+                                <button ng-if="(!p.available || p.stock <= 0)" class="btn btn-secondary" disabled>Hết hàng</button>
                             </div>
                         </div>
                     </div>

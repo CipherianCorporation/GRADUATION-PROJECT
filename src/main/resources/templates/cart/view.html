@@ -50,7 +50,7 @@
                                                             class="form-control" style="min-width: 4vw;" />
 
                                                         <button class="btn btn-link px-2 shadow-none btn-outline-light"
-                                                            ng-click="item.qty = item.qty + 1; cart.saveToLocalStorage()">
+                                                            ng-click="item.qty = (item.qty +1 ) < item.stock?(item.qty + 1):(item.stock); cart.saveToLocalStorage()">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
