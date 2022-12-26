@@ -31,7 +31,7 @@
                         <input type="text" class="form-control" readonly="readonly" ng-model="form.order.createdAt">
                     </div>
                     <div class="mb-2 col-sm-4">
-                        <div><b>Giá Tiền</b></div>
+                        <div><b>Giá Tiền</b></div> 
                         <input type="text" class="form-control" readonly="readonly" ng-model="form.order.total">
                     </div>
                     <div class="mb-2 col-sm-4">
@@ -76,9 +76,9 @@
                             <tr ng-repeat="item in detail_items">
                                 <td><b>{{item.order.id}}</b></td>
                                 <td>{{item.product.name}}</td>
-                                <td>{{item.product.price | currency :'đ':0}}</td>
+                                <td>{{(item.product.price - (item.product.price * item.product.sale_off / 100)) | currency :'đ':0}}</td>
                                 <td>{{item.quantity}}</td>
-                                <td><b>{{item.product.price*item.quantity | currency :'đ':0}}</b></td>
+                                <td><b>{{item.quantity * (item.product.price - (item.product.price * item.product.sale_off / 100)) | currency :'đ':0}}</b></td>
                             </tr>
                         </tbody>
                     </table>

@@ -84,7 +84,14 @@ public class UserServiceImpl implements UserService {
             } else if (findUser.get().getProvider() == null || user.getProvider() == null) {
                 user.setProvider(EAuthProvider.DATABASE);
             }
-            if (findUser.get().getPassword() != null || findUser.get().getPassword() != "") {
+            if (user.getPassword() != null && user.getPassword() != "") {
+                if (findUser.get().getPassword().equals(user.getPassword())) {
+                    user.setPassword((findUser.get().getPassword()));
+                } else {
+                    String encodedPassword = encoder.encode(user.getPassword());
+                    user.setPassword(encodedPassword);
+                }
+            } else {
                 user.setPassword((findUser.get().getPassword()));
             }
             user.setUpdatedAt(new Date());
@@ -107,6 +114,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public List<User> findAllIsDeletedFalse() {
+        return userRepo.findAllIsDeletedFalse();
     }
 
     @Override

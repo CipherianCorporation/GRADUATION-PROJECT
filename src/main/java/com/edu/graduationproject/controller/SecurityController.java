@@ -4,12 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Controller
 public class SecurityController {
@@ -32,7 +37,14 @@ public class SecurityController {
     }
 
     @RequestMapping("/security/login/success")
-    public String loginSuccess(Model model) {
+    public String loginSuccess(Model model, Authentication auth) {
+        boolean isShipper = auth.getAuthorities().stream()
+                .map(role -> role.getAuthority().replace("ROLE_", ""))
+                .collect(Collectors.toList())
+                .contains("SHIPPER");
+        if (isShipper == true) {
+            return "redirect:/order/shipper";
+        }
         model.addAttribute("message", "Đăng nhập thành công!");
         return "redirect:/";
     }
@@ -50,7 +62,7 @@ public class SecurityController {
     }
 
     @RequestMapping("/security/logoff/success")
-    public String logoffSuccess(Model model) {
+    public String logoffSuccess(Model model, RedirectAttributes redirAttrs) {
         model.addAttribute("message", "Bạn đã đăng xuất!");
         return "security/login";
     }

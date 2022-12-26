@@ -33,24 +33,30 @@ public class CategoryRestController {
     public List<Category> getAll() {
         return categoryService.findAll();
     }
-    
+
     @GetMapping("/rest/categories/{name}")
     public List<Category> getCateByName(@PathVariable String name) {
         return categoryService.findByCateName(name);
     }
-    
+
     @PostMapping("/rest/categories")
-    public ResponseEntity<Category> create(@RequestBody Category category){
-    	return ResponseEntity.ok(categoryService.save(category));
+    public ResponseEntity<Category> create(@RequestBody Category category) {
+        if (category.getIsDeleted() == null) {
+            category.setIsDeleted(false);
+        }
+        return ResponseEntity.ok(categoryService.save(category));
     }
-    
+
     @PutMapping("/rest/categories/{id}")
-    public ResponseEntity<Category> update(@PathVariable("id") Integer id, @RequestBody Category category){
-    	return ResponseEntity.ok(categoryService.update(category));
+    public ResponseEntity<Category> update(@PathVariable("id") Integer id, @RequestBody Category category) {
+        if (category.getIsDeleted() == null) {
+            category.setIsDeleted(false);
+        }
+        return ResponseEntity.ok(categoryService.update(category));
     }
-    
+
     @DeleteMapping("/rest/categories/{id}")
     public void delete(@PathVariable("id") Optional<Integer> id) {
-    	categoryService.deleteById(id.get());
+        categoryService.deleteById(id.get());
     }
 }

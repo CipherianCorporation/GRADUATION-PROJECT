@@ -23,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllIsDeletedFalse() {
+        return repo.findAllIsDeletedFalse();
+    }
+
+    @Override
     public List<Product> findAll(Sort sort) {
         return repo.findAll(sort);
     }

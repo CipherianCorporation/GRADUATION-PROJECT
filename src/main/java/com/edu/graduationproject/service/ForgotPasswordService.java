@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.edu.graduationproject.entity.User;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
 public interface ForgotPasswordService {
     void updateResetPasswordToken(String token, String email) throws Exception;
 

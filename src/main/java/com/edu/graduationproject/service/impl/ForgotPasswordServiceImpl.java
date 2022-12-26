@@ -1,5 +1,7 @@
 package com.edu.graduationproject.service.impl;
 
+import com.edu.graduationproject.service.UserService;
+import com.edu.graduationproject.utils.Utility;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
@@ -18,6 +20,11 @@ import com.edu.graduationproject.service.ForgotPasswordService;
 import com.edu.graduationproject.service.MailerService;
 import com.edu.graduationproject.service.UserService;
 import com.edu.graduationproject.utils.CommonUtils;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
@@ -47,7 +54,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
                 repo.save(user);
             }
         } catch (Exception e) {
-            throw e;
+            throw new RuntimeException(e);
         }
     }
 
@@ -58,11 +65,12 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
     @Override
     public void updatePassword(User user, String newPass) {
+        // TODO Auto-generated method stub
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodePassword = passwordEncoder.encode(newPass);
         user.setPassword(encodePassword);
         user.setReset_pwd_token(null);
         repo.save(user);
-
     }
 
     @Override
@@ -85,7 +93,6 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         }
     }
 
-    @Override
     public String resetPassword(String token, String password) {
         Optional<User> userOtp = this.getByResetPasswordToken(token);
         if (!userOtp.isPresent()) {

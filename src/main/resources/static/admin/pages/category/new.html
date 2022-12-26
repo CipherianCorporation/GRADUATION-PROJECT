@@ -13,12 +13,13 @@
         </div>
         <div class="form-outline-primary mb-4">
             <label class="form-label" for="form12">Tên danh mục</label>
-            <input ng-model="form.name" name="name" type="text" id="form12" class="form-control" required />
-            <div class="text-danger" ng-show="formcate.name.$invalid">Làm ơn nhập tên danh mục hợp lệ.</div>
+            <input ng-model="form.name" name="name" type="text" ng-keyup="checkCateValid()" id="form12" class="form-control" required />
+            <div class="text-danger" ng-show="checkCateValid()">Tên danh mục đã tồn tại.</div>
+			<div class="text-danger" ng-show="formcate.name.$invalid">Làm ơn nhập tên danh mục hợp lệ.</div>
         </div>
 
         <!-- Submit button -->
-        <button ng-disabled="formcate.$invalid" ng-click="create()" type="submit" class="btn btn-primary btn-block">Tạo mới</button>
+        <button ng-disabled="formcate.$invalid || checkCateValid()" ng-click="create()" type="submit" class="btn btn-primary btn-block">Tạo mới</button>
 
     </form>
 
@@ -36,10 +37,11 @@
         </div>
         <div class="form-outline-primary mb-4">
             <label class="form-label" for="form12">Tên danh mục phụ</label>
-            <input ng-model="formsub.name" name="name" type="text" id="form12" class="form-control" required />
+            <input ng-model="formsub.name" name="name" ng-keyup="checkSubCateValid()" type="text" id="form12" class="form-control" required />
+            <div class="text-danger" ng-show="checkSubCateValid()">Tên danh mục phụ đã tồn tại.</div>
             <div class="text-danger" ng-show="formsubcate.name.$invalid">Làm ơn nhập tên danh mục phụ hợp lệ.</div>
         </div>
         <!-- Submit button -->
-        <button ng-disabled="formsubcate.$invalid" ng-click="createSubCate()" type="submit" class="btn btn-primary btn-block">Tạo mới</button>
+        <button ng-disabled="formsubcate.$invalid || checkSubCateValid()" ng-click="createSubCate()" type="submit" class="btn btn-primary btn-block">Tạo mới</button>
     </form>
 </div>

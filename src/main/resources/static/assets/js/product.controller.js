@@ -156,7 +156,7 @@ function productController($scope, $http, $interval) {
 
     $scope.productPager = {
         page: 0,
-        size: 10,
+        size: 12,
         get productList() {
             let start = this.page * this.size;
             return $scope.productList.slice(start, start + this.size);

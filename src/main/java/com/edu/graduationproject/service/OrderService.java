@@ -1,6 +1,7 @@
 package com.edu.graduationproject.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ import com.edu.graduationproject.model.IOrderTypeCount;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public interface OrderService {
-    Order create(JsonNode orderData);
+    Order create(HttpServletRequest req, Map<String, Object> orderMap);
 
     Optional<Order> findById(Long id);
 
@@ -35,5 +36,5 @@ public interface OrderService {
 
     List<IOrderTypeCount> getTypeCount();
 
-    void sendEmailReceipt(JsonNode orderData, HttpServletRequest request);
+    void sendEmailReceipt(Order order, HttpServletRequest request);
 }

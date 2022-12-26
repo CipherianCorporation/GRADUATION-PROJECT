@@ -1,5 +1,6 @@
 package com.edu.graduationproject.controller.rest;
 
+import com.edu.graduationproject.entity.Order;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.edu.graduationproject.entity.Order;
 import com.edu.graduationproject.entity.Product;
 import com.edu.graduationproject.entity.User;
 import com.edu.graduationproject.service.ExportService;
@@ -43,6 +43,7 @@ public class ExportRestController {
         }
     }
 
+    //Print pdf
     @GetMapping("/admin/orders/export-excel")
     public ResponseEntity<String> exportOrdersExcel(HttpServletResponse response) {
         try {
@@ -105,6 +106,7 @@ public class ExportRestController {
         }
     }
 
+    //Print csv
     @GetMapping("/admin/orders/export-csv")
     public ResponseEntity<String> exportOrdersCsv(HttpServletResponse response) {
         try {

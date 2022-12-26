@@ -21,7 +21,7 @@ function orderCtrl($scope, $http, $window) {
         }).catch(error => {
             console.log("Error", error);
         });
-    };
+    }
 
 
     $scope.initializez = function () {
@@ -65,7 +65,7 @@ function orderCtrl($scope, $http, $window) {
     $scope.check = function () {
         $scope.get_user_id();
         if (localStorage.getItem('user') == null || localStorage.getItem('user') == "undefined") {
-            return;
+            return ;
         }
         $scope.initializez();
     };

@@ -41,4 +41,8 @@ public class Size implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "size")
     private List<Product> products;
+
+    public Size(Integer value) {
+        this.value = value;
+    }
 }

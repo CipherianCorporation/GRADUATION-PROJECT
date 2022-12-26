@@ -43,4 +43,8 @@ public class OrderStatus implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "orderStatus")
     private List<Order> orders;
+
+    public OrderStatus(String name) {
+        this.name = name;
+    }
 }

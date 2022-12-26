@@ -10,7 +10,7 @@ import com.edu.graduationproject.entity.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	@Modifying
-    @Query("SELECT name FROM Category u WHERE u.name=?1")
+    @Query(value = "SELECT u.name FROM categories u WHERE u.name=?1 AND u.is_deleted = 0", nativeQuery = true)
     public List<Category> findByName(String name);
 	
 }

@@ -91,6 +91,7 @@
                                     <a class="dropdown-item" th:href="@{/account/editprofile}">Chỉnh sửa tài khoản</a>
                                 </li>
                                 <li th:if="${#request.isUserInRole('ROLE_USER') or #request.isUserInRole('ROLE_STAFF') or #request.isUserInRole('ROLE_ADMIN')}">
+
                                     <a class="dropdown-item" th:href="@{/account/change_password}">Đổi mật khẩu</a>
                                 </li>
                                 <li>

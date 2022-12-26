@@ -29,9 +29,29 @@ app.controller("category-ctrl", function ($scope, $http) {
 
     $scope.initialize();
 
+    $scope.checkCateValid = function () {
+        let temData = $scope.category.find((c) => c.name === $scope.form.name);
+        if (temData) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.checkSubCateValid = function () {
+        let temData = $scope.subcate.find((c) => c.name === $scope.formsub.name);
+        if (temData) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+
     $scope.create = function () {
         let item = angular.copy($scope.form);
         let isDuplicate = false;
+        item.isDeleted = false;
         if (item.image_url == null) {
             item.image_url = 'default-user.jpg';
         }
@@ -72,6 +92,7 @@ app.controller("category-ctrl", function ($scope, $http) {
     $scope.update = function () {
         var item = angular.copy($scope.form);
         item.updatedAt = new Date();
+        item.isDeleted = false;
         let check = confirm(`Bạn có chắc chắn sửa thể loại này không ?`);
         if (check) {
             $http.put(`/rest/categories/${item.id}`, item).then(resp => {
@@ -119,7 +140,8 @@ app.controller("category-ctrl", function ($scope, $http) {
     $scope.createSubCate = function () {
         let item = angular.copy($scope.formsub);
         let isDuplicate = false;
-        $scope.category.forEach(cates => {
+        item.isDeleted = false;
+        $scope.subcate.forEach(cates => {
             if (cates.name === item.name) {
                 isDuplicate = true;
             }
@@ -142,6 +164,7 @@ app.controller("category-ctrl", function ($scope, $http) {
     $scope.updateSubCate = function () {
         var item = angular.copy($scope.formsub);
         item.updatedAt = new Date();
+        item.isDeleted = false;
         let check = confirm(`Bạn có chắc chắn sửa danh mục này không ?`);
         if (check) {
             $http.put(`/rest/sub-categories/${item.id}`, item).then(resp => {

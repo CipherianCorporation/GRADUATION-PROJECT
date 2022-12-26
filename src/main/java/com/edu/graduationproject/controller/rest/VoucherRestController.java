@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class VoucherRestController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherRestController.class);
 
     @Autowired
     VoucherService voucherService;

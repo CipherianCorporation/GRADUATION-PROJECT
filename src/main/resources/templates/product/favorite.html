@@ -38,17 +38,21 @@
         </div>
         <!-- loading spinner END-->
 
+        <!-- no favorite START-->
+        <div class="row justify-content-center my-4" ng-show="favoritePager.favoriteProductList.length === 0 && !favoriteListLoading">
+            <h5 class="text-center">Không có sản phẩm yêu thích</h5>
+        </div>
+        <!-- no favorite END-->
+
         <!-- product list -->
         <div class="row row-cols-1 row-cols-md-4 g-4 mb-4" style="min-height: 50vh;">
-            <div class="col-md-3 col-lg-3 col-sm-12"
-                ng-repeat="p in favoritePager.favoriteProductList | filter : {color: {name: selectedColor}} | rangeFilter:'price':0:priceRange | filter: searchTextProdList">
+            <div class="col-md-3 col-lg-3 col-sm-12" ng-repeat="p in favoritePager.favoriteProductList | filter : {color: {name: selectedColor}} | rangeFilter:'price':0:priceRange | filter: searchTextProdList">
 
                 <!-- product card START-->
                 <div class="card" style="position: relative;">
                     <a href="{{'/product/detail/' + p.id}}">
                         <div class="bg-image hover-zoom">
-                            <img ng-src="{{ (p.image.startsWith('upload')?'/upload/images/':'/assets/images/') + (p.image || 'default-product.jpg') }}"
-                                class="card-img-top" alt="Product image" />
+                            <img ng-src="{{ (p.image.startsWith('upload')?'/upload/images/':'/assets/images/') + (p.image || 'default-product.jpg') }}" class="card-img-top" alt="Product image" />
                         </div>
                     </a>
                     <div ng-show="p.sale_off != 0" class="label-top bg-danger shadow-sm">
@@ -56,16 +60,15 @@
                     </div>
                     <div class="" style="top: 5px; left: 5px; position: absolute; cursor: pointer;">
                         <!-- hàm changeClassName ở static/assets/js/script.js -->
-                        <a class="text-secondary" onmouseover="changeClassName(this, 'text-secondary','text-danger')"
-                            onmouseleave="changeClassName(this, 'text-secondary','text-danger')" ng-click="removeFromFavorite(p.favoriteId)"><i
-                                class="fa-regular fa-circle-xmark fa-2x"></i></a>
+                        <a class="text-secondary" onmouseover="changeClassName(this, 'text-secondary','text-danger')" onmouseleave="changeClassName(this, 'text-secondary','text-danger')" ng-click="removeFromFavorite(p.favoriteId)"><i class="fa-regular fa-circle-xmark fa-2x"></i></a>
                     </div>
 
                     <div class="card-body">
                         <h5 class="card-title">{{p.name}}</h5>
                         <p>{{p.color.name}}</p>
                         <div class="card-text d-flex justify-content-between">
-                            <span ng-show="p.sale_off == 0">{{ p.price | currency:'đ':0}}</span>
+                            <span ng-show="p.sale_off == 0">
+                                {{ p.price | currency:'đ':0}}</span>
                             <span ng-if="p.sale_off != 0">
                                 <del class="small">{{p.price | currency:'đ':0}}</del>
                                 {{ p.sale_off != 0 ? (p.price - (p.price * p.sale_off / 100) ) : p.price |

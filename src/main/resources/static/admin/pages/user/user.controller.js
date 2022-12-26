@@ -94,6 +94,15 @@ app.controller("user-ctrl", function ($scope, $http) {
             });
         }
     };
+    
+    $scope.checkUsernameValid = function(){
+		let temData = $scope.items.find((u)=>u.username === $scope.newForm.username);
+		if(temData){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
     $scope.update = function () {
         let item = angular.copy($scope.editForm);

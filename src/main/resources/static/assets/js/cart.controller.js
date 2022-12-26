@@ -81,7 +81,7 @@ function shoppingCartCtrl($scope, $http, $window) {
         //Tính tổng giá tiền trong giỏ hàng
         get amount() {
             return this.items
-                .map(item => item.qty * item.price)
+                .map(item => item.qty * (item.price - (item.price * item.sale_off / 100)))
                 .reduce((total, qty) => total += qty, 0);
         },
         //Lưu giỏ hàng đổi sang Json
@@ -97,9 +97,6 @@ function shoppingCartCtrl($scope, $http, $window) {
         }
     };
     $scope.cart.loadFromLocalStorage();
-    // let user = {};
-    // fetch('/rest/users/' + $('#login-username').text()).then(res => res.json()).then(data => { user = data; });
-    // console.log(user);
 
     $scope.sortCheckoutItems = function (orderType) {
         if (orderType === 'price_asc') {
@@ -130,7 +127,7 @@ function shoppingCartCtrl($scope, $http, $window) {
 
         }).catch(err => {
             $scope.voucherResponse = {};
-            console.log("voucher didn't exist!!!");
+            console.log("voucher didn't exist!!!",err);
         });
     };
 
@@ -152,13 +149,6 @@ function shoppingCartCtrl($scope, $http, $window) {
         // createdAt: new Date(),
         total: 0.0,
         address: '',
-        payment_method: "",
-        orderStatus: {
-            name: "processing"
-        },
-        user: {
-            username: '',
-        },
         get order_details() {
             return $scope.cart.items.map(item => {
                 return {
@@ -174,12 +164,11 @@ function shoppingCartCtrl($scope, $http, $window) {
         },
         purchase() {
             let order = angular.copy(this);
-            order.address = $scope.userPrincipal.address;
-            order.user.username = $scope.userPrincipal.username;
             if (!$scope.isObjEmpty($scope.voucherResponse)) {
                 // thêm property voucher vào object order
-                order.voucher = { id: null };
+                order.voucher = { id: null, code: null };
                 order.voucher.id = $scope.voucherResponse.id;
+                order.voucher.code = $scope.voucherResponse.code;
             }
             order.total = $scope.order.total_cost();
             // console.log(order);
@@ -197,7 +186,7 @@ function shoppingCartCtrl($scope, $http, $window) {
                 } else if (order.payment_method === "cod") {
                     $http.post('/rest/orders', order).then(res => {
                         alert("Đặt hàng thành công, chúng tôi sẽ gửi mail hóa đơn vào địa chỉ email của bạn!");
-                        $scope.semdEmailReceipt(res.data);
+                        // $scope.semdEmailReceipt(res.data);
                         $scope.cart.clear();
                         location.href = "/order/list";
                     }).catch(err => {

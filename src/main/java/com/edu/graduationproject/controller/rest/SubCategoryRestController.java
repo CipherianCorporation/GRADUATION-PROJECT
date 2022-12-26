@@ -53,11 +53,17 @@ public class SubCategoryRestController {
     
     @PostMapping("/rest/sub-categories")
     public ResponseEntity<SubCategory> create(@RequestBody SubCategory subcategory){
+        if (subcategory.getIsDeleted() == null) {
+            subcategory.setIsDeleted(false);
+        }
     	return ResponseEntity.ok(service.save(subcategory));
     }
     
     @PutMapping("/rest/sub-categories/{id}")
     public ResponseEntity<SubCategory> update(@PathVariable("id") Integer id, @RequestBody SubCategory subcategory){
+        if (subcategory.getIsDeleted() == null) {
+            subcategory.setIsDeleted(false);
+        }
     	return ResponseEntity.ok(service.update(subcategory));
     }
     

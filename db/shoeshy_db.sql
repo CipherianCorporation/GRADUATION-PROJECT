@@ -251,12 +251,12 @@ inner join sub_categories s on p.sub_category_id = s.id
 
 -- Update rows in table '[TableName]' in schema '[dbo]'
 -- Delete rows from table '[vouchers]' in schema '[dbo]'
-DELETE FROM [dbo].[vouchers]
+DELETE FROM [dbo].[users]
 WHERE /* add search conditions here */
-code = 'testdel3'
+username = 'testdel'
 GO
 
-select * from users u where u.username = 'testdel' and u.is_deleted = 0
+
 
 
 

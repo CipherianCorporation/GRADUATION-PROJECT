@@ -9,6 +9,8 @@ import com.edu.graduationproject.entity.Product;
 public interface ProductService {
     List<Product> findAll();
 
+    List<Product> findAllIsDeletedFalse();
+
     List<Product> findAll(Sort sort);
 
     Product findById(Integer id);

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.edu.graduationproject.entity.Voucher;
 import com.edu.graduationproject.repository.VoucherRepository;
 import com.edu.graduationproject.service.VoucherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {

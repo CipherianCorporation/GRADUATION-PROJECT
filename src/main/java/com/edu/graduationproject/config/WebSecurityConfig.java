@@ -79,7 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/rest/sub-categories/**",
                                                 "/rest/voucher/**",
                                                 "/rest/send_contact",
-                                                "/order/shipper",
                                                 "/rest/vouchers/**",
                                                 "/cart/**",
                                                 "/account/signup",
@@ -116,6 +115,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                                 "/rest/orders/revenue",
                                                 "/rest/sub-categories/product-sold")
                                 .hasAnyRole("ADMIN", "STAFF")
+                        .antMatchers("/order/shipper").hasRole("SHIPPER")
                                 .antMatchers(HttpMethod.GET, "/rest/authorities/**").hasAnyRole("STAFF", "ADMIN")
                                 .antMatchers(HttpMethod.POST, "/rest/authorities/**").hasRole("ADMIN")
                                 .antMatchers(HttpMethod.DELETE, "/rest/authorities/**").hasRole("ADMIN")

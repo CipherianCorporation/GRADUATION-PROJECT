@@ -51,8 +51,50 @@
                     </div>
                     <!-- Right elements -->
                     <div class="d-flex align-items-center">
-                    </div>
+
+                        <!-- Icon Avatar -->
+                        <div class="dropdown me-3">
+                            <a class="dropdown-toggle d-flex align-items-center text-reset" href="#" id="avatarDropdown" role="button" data-mdb-toggle="dropdown"
+                               data-mdb-display="static" aria-expanded="false">
+                                <!-- user icon -->
+                                <i class="fa-solid fa-user me-2"></i>
+                                <span th:if="${#request.remoteUser}">
+                                <!-- limit username string to only 14 words. Ex: myusernameisreal... -->
+                                <span class="fw-bold" th:text="${#strings.abbreviate(#request.remoteUser,14)}"></span>
+                            </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="avatarDropdown">
+                                <!-- appear when login -->
+                                <th:block th:if="${#request.remoteUser}">
+                                    <!-- <span sec:authentication="authorities"></span> -->
+                                    <!-- if user log in with OAuth2 GG and FB then hide Edit profile -->
+                                    <!-- and !hasAuthority('SCOPE_openid') and !hasAuthority('SCOPE_email') and !hasAuthority('SCOPE_public_profile') -->
+                                    <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_STAFF')">
+                                        <a class="dropdown-item" th:href="@{/account/editprofile}">Chỉnh sửa tài khoản</a>
+                                    </li>
+                                    <li th:if="${#request.isUserInRole('ROLE_USER') or #request.isUserInRole('ROLE_STAFF') or #request.isUserInRole('ROLE_ADMIN')}">
+                                        <a class="dropdown-item" th:href="@{/account/change_password}">Đổi mật khẩu</a>
+                                    </li>
+                                    <!-- appear only for admin or staff -->
+                                    <li th:if="${#request.isUserInRole('ROLE_ADMIN') or #request.isUserInRole('ROLE_STAFF')}">
+                                        <a class="dropdown-item" th:href="@{/admin/home/index}">Quản trị</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" th:href="@{/security/logoff}">Đăng xuất</a>
+                                    </li>
+                                </th:block>
+                                <!-- appear when not login -->
+                                <th:block th:unless="${#request.remoteUser}">
+                                    <li><a class="dropdown-item" th:href="@{/security/login/form}">Đăng nhập</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/account/signup}">Đăng ký</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/account/forgotpassword/form}">Quên mật khẩu</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/account/contact}">Liên hệ</a></li>
+                                </th:block>
+                            </ul>
+                        </div>
                     <!-- Container wrapper -->
+                </div>
+                </div>
             </nav>
             <!-- Navbar -->
         </header>
@@ -74,34 +116,40 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Mã đơn hàng</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.id">
                             </div>
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Người đặt hàng</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.user.fullname">
                             </div>
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Ngày đặt hàng</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.createdAt">
                             </div>
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Giá Tiền</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.total">
                             </div>
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Phương thức thanh toán</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.payment_method">
                             </div>
 
-                            <div class="mb-2 col-sm-4">
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Trạng thái đơn hàng</b></div>
                                 <input type="text" class="form-control" readonly="readonly" ng-model="form.orderStatus.name">
                             </div>
-                            <div class="mb-2 ">
+
+                            <div class="mb-2 col-sm-6">
+                                <div><b>Số điện thoại</b></div>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.user.phone">
+                            </div>
+
+                            <div class="mb-2 col-sm-6">
                                 <div><b>Địa chỉ giao hàng</b></div>
-                                <textarea class="form-control" readonly="readonly" ng-model="form.address"></textarea>
+                                <input type="text" class="form-control" readonly="readonly" ng-model="form.address">
                             </div>
                         </div>
                     </div>

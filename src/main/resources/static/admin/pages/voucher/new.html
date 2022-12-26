@@ -3,8 +3,9 @@
     <!-- Text input -->
     <label for="form6Example3">Code</label>
     <div class="form-outline-primary mb-4">
-        <input type="text" id="form6Example3" class="form-control" ng-model="form_new.code" name="code" required />
-        <div class="text-danger" ng-show="myform.code.$invalid">Xin hãy nhập code voucher.</div>
+        <input type="text" id="form6Example3" class="form-control" ng-keyup="checkExistCode()" ng-change="form_new.code = form_new.code.toUpperCase()" ng-model="form_new.code" name="code" required />
+        <div class="text-danger" ng-show="myform.code.$invalid">Vui lòng nhập code voucher.</div>
+        <div class="text-danger" ng-show="checkExistCode()">Voucher đã tồn tại.</div>
     </div>
 
     <!-- Text input -->
@@ -18,21 +19,24 @@
     <label for="form6Example3">Phần trăm giảm</label>
     <div class="form-outline-primary mb-4">
         <input type="number" id="form6Example4" class="form-control" ng-model="form_new.value" name="value" min="0" max="100" required />
-        <div class="text-danger" ng-show="myform.value.$invalid">Vui lòng nhập giá trị voucher.</div>
+        <div class="text-danger" ng-show="myform.value.$invalid">Vui lòng nhập giá trị voucher từ 0 - 100.</div>
     </div>
     <!-- Text input -->
     <label for="form6Example3">Ngày hiệu lực</label>
     <div class="form-outline-primary mb-4">
-        <input type="date" class="form-control" ng-model="form_new.startDate" name="startDate" required />
+        <input type="date" class="form-control" ng-model="form_new.startDate" name="startDate" ng-change="checkDateStart()" required />
         <div class="text-danger" ng-show="myform.startDate.$invalid">Vui lòng nhập ngày bắt đầu.</div>
+        <div class="text-danger" ng-hide="checkDateStart()">Vui lòng không nhập ngày hiệu lực trước hơn ngày hiện tại.</div>
     </div>
     <!-- Text input -->
     <label for="form6Example3">Ngày kết thúc</label>
     <div class="form-outline-primary mb-4">
-        <input type="date" class="form-control" ng-model="form_new.endDate" name="endDate" required />
+        <input type="date" class="form-control" ng-model="form_new.endDate" ng-change="checkDateEnd()" name="endDate" required />
+        <input type="hidden" ng-model="isDateEnd" ng-value="">
         <div class="text-danger" ng-show="myform.endDate.$invalid">Vui lòng nhập ngày kết thúc.</div>
+        <div class="text-danger" ng-hide="checkDateEnd()">Vui lòng không nhập ngày kết thúc trước ngày hiệu lực.</div>
     </div>
 
     <!-- Submit button -->
-    <button ng-disabled="myform.$invalid" ng-click="create()" type="button" class="btn btn-success btn-block mb-4">Tạo mới</button>
+    <button ng-disabled="myform.$invalid || !checkDateEnd() || !checkDateStart() || checkExistCode()"  ng-click="create()" type="button" class="btn btn-success btn-block mb-4">Tạo mới</button>
 </form>

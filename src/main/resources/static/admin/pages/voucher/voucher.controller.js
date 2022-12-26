@@ -27,6 +27,7 @@ app.controller("voucher-ctrl", function ($scope, $http, $filter) {
 
     $scope.reset = function () {
         $scope.form = {};
+        $scope.form_new = {};
     };
 
     $scope.create = function () {
@@ -37,22 +38,8 @@ app.controller("voucher-ctrl", function ($scope, $http, $filter) {
         if (voucher.isUsed == null) {
             voucher.isUsed = false;
         }
-        if (voucher.startDate < voucher.endDate) {
-            $http.get(`/rest/vouchers/code/${voucher.code}`).then(resp => {
-                if (resp.status === 404) {
-                    $http.post(`/rest/vouchers`, voucher).then(resp => {
-                        $scope.list_vouchers.push(resp.data);
-                        $scope.reset();
-                        // $scope.initialize();
-                        alert('Tạo voucher mới thành công');
-                    }).catch(error => {
-                        alert('Lỗi khi tạo voucher : ' + error);
-                        console.log("Error", error);
-                    });
-                } else {
-                    alert('Mã code đã tồn tại');
-                }
-            }).catch((error) => {
+        $http.get(`/rest/vouchers/code/${voucher.code}`).then(resp => {
+            if (resp.status === 404) {
                 $http.post(`/rest/vouchers`, voucher).then(resp => {
                     $scope.list_vouchers.push(resp.data);
                     $scope.reset();
@@ -62,10 +49,20 @@ app.controller("voucher-ctrl", function ($scope, $http, $filter) {
                     alert('Lỗi khi tạo voucher : ' + error);
                     console.log("Error", error);
                 });
+            } else {
+                alert('Mã code đã tồn tại');
+            }
+        }).catch((error) => {
+            $http.post(`/rest/vouchers`, voucher).then(resp => {
+                $scope.list_vouchers.push(resp.data);
+                $scope.reset();
+                // $scope.initialize();
+                alert('Tạo voucher mới thành công');
+            }).catch(error => {
+                alert('Lỗi khi tạo voucher : ' + error);
+                console.log("Error", error);
             });
-        } else {
-            alert('Ngày hiệu lực phải trước ngày kết thúc');
-        }
+        });
     };
 
     $scope.delete = function (voucher) {
@@ -88,25 +85,62 @@ app.controller("voucher-ctrl", function ($scope, $http, $filter) {
         let item = angular.copy($scope.form);
         item.isDeleted = false;
 
-        if(item.startDate < item.endDate) {
-            let check = confirm(`Bạn có chắc chắn cập nhật voucher này không ?`);
-            if (check) {
-                $http.put(`/rest/vouchers/${item.id}`, item).then(resp => {
-                    let index = $scope.list_vouchers.findIndex(v => v.id == item.id);
-                    $scope.list_vouchers[index] = item;
-                    // $scope.initialize();
-                    $scope.reset();
-                    alert("Cập nhật thành công ");
-                }).catch(error => {
-                    alert("Lỗi khi cập nhật voucher: " + error.message);
-                    console.log("Error", error);
-                });
-            }
-        }else{
-            alert('Ngày hiệu lực phải trước ngày kết thúc');
+        let check = confirm(`Bạn có chắc chắn cập nhật voucher này không ?`);
+        if (check && $scope.checkDateStart(item.startDate)) {
+            $http.put(`/rest/vouchers/${item.id}`, item).then(resp => {
+                let index = $scope.list_vouchers.findIndex(v => v.id == item.id);
+                $scope.list_vouchers[index] = item;
+                // $scope.initialize();
+                $scope.reset();
+                alert("Cập nhật thành công ");
+            }).catch(error => {
+                alert("Lỗi khi cập nhật voucher: " + error.message);
+                console.log("Error", error);
+            });
         }
 
+
     };
+
+    $scope.checkDateStart = function () {
+        let todayDate = new Date();
+        if ($scope.form_new.startDate >= todayDate.setHours(0,0,0,0)){
+            return true;
+        }else if($scope.form_new.startDate === undefined){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    $scope.checkDateEnd = function (){
+        if ($scope.form_new.startDate < $scope.form_new.endDate){
+            return true;
+        }else if($scope.form_new.endDate === undefined){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $scope.checkDateEndEdit = function (){
+        if ($scope.form.startDate < $scope.form.endDate){
+            return true;
+        }else if($scope.form.endDate === undefined){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $scope.checkExistCode = function () {
+        let tmp = $scope.list_vouchers.find((v)=>v.code === $scope.form_new.code)
+        if(tmp){
+            return true;
+        }
+        return false;
+    }
 
     $scope.pager = {
         page: 0,

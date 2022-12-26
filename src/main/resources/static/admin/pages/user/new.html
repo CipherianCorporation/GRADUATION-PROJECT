@@ -14,7 +14,8 @@
     <!-- Text input -->
     <label for="newFormUsername">Tên nguời dùng</label>
     <div class="form-outline-primary mb-4">
-        <input ng-model="newForm.username" name="username" type="text" id="newFormUsername" class="form-control" required />
+        <input ng-model="newForm.username" name="username" ng-keyup="checkUsernameValid()" type="text" id="newFormUsername" class="form-control" required />
+        <div class="text-danger" ng-show="checkUsernameValid()">Tên người dùng đã tồn tại</div>
         <div class="text-danger" ng-show="myNewForm.username.$invalid">Làm ơn nhập tên người dùng hợp lệ.</div>
     </div>
 
@@ -53,12 +54,12 @@
         <div class="text-danger" ng-show="myNewForm.address.$invalid">Làm ơn nhập địa chỉ hợp lệ.</div>
     </div>
     <div class="mb-4">
-        <label>Roles:</label>
+        <label>Roles</label>
         <select ng-model="newForm.role" ng-init="newForm.role = newForm.role || roles[0].id" ng-options="option.id as option.name for option in roles"
             class="form-control">
         </select>
     </div>
 
     <!-- Submit button -->
-    <button ng-disabled="myNewForm.$invalid" ng-click="create()" type="submit" class="btn btn-success btn-block mb-4">Tạo mới</button>
+    <button ng-disabled="myNewForm.$invalid || checkUsernameValid()" ng-click="create()" type="submit" class="btn btn-success btn-block mb-4">Tạo mới</button>
 </form>

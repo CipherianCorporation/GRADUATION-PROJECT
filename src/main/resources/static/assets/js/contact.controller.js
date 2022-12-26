@@ -13,6 +13,7 @@ function contactCtrl($scope, $http, $window) {
         $http.post("/rest/send_contact",contact).then(resp => {
             alert("Gửi liện hệ thành công")
         }).catch(error => {
+            alert("Gửi liện hệ thất bại")
             console.log("Error", error);
         });
     }

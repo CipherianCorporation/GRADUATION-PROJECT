@@ -23,6 +23,8 @@ public interface UserService {
 
     List<User> findAll();
 
+    List<User> findAllIsDeletedFalse();
+
     List<User> getAdministators();
 
     void register(User user, String url) throws MessagingException;
