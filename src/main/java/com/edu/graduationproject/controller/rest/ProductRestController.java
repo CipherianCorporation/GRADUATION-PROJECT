@@ -140,7 +140,7 @@ public class ProductRestController {
             if (product.getSale_off() == null || product.getSale_off() <= 0) {
                 product.setSale_off((double) 0);
             }
-            if (product.getPrice() == null || product.getPrice() <= 0) {
+            if (product.getPrice() == null || product.getPrice() <= 0) { 
                 return ResponseEntity.badRequest().build();
             }
             if (product.getStock() == null || product.getStock() <= 0) {

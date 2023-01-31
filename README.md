@@ -1,14 +1,14 @@
 ![shoeshy-logo](https://user-images.githubusercontent.com/52403567/202708244-38f7033e-ec32-4124-b807-4fa6b034823f.png)
 ## ShoeShy - Shoe store website
 
-A final graduation project at FPT Polytechnic, a shoe store website made with Spring Boot, payment integration with Paypal Sandbox, there is 3 roles: USER, ADMIN, and STAFF. USER can only visit homepage while STAFF and ADMIN can visit both homepage and admin page. User can sign in and sign up with normal account or with OAuth2 account (GG,FB), edit profile, see orders history, reset password, and checkout with or without voucher, search & sort products. ADMIN and STAFF can visit admin page, view Dashboard, CRUD User, Product, Order, Category & SubCategory, Voucher, and have authorizing privilege, export data to excel, pdf, csv, upload excel, pdf, csv to db (to be added), payment with NEAR (to be added). Testing with JUnit that can read Excel data then export results to Excel.
+A final graduation project at FPT Polytechnic, a shoe store website made with Spring Boot, payment integration with Paypal Sandbox, there are 4 roles: USER, ADMIN, SHIPPER and STAFF. USER can only visit homepage, SHIPPER can visit both homepage and shipper page while STAFF and ADMIN can visit both homepage and admin page. User can sign in and sign up with normal account or with OAuth2 account (GG,FB), edit profile, change password, add favorite products, print order receipt, see orders history, reset password, and checkout with or without voucher, search & sort products. ADMIN and STAFF both can visit admin page, view Dashboard, CRUD User, Product, Order, Category & SubCategory, Voucher, only ADMIN have authorizing privilege, export data to excel, pdf, csv, upload excel, pdf, csv to db (to be added). Testing with TestNG that can read Excel data then export results to Excel.
 
 Stack used:
   *	Stack:
     -	Frontend: AngularJS, Thymeleaf, MDBootstrap 5, JQuery
     -	Backend: Spring Boot, Spring Data JPA, Spring Security, OAuth2
     -	Database: SQL Server 2019 (Somee.com)
-    - Testing: JUnit
+    - Testing: TestNG
   *	Software:
     -	Visual Studio Code + Spring Boot extension
     -	[Adoptium Temurin JDK 17](https://adoptium.net/)
